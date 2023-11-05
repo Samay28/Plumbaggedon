@@ -4,7 +4,7 @@
 		{
 			"name": "Launch Swoosh (Debug)",
 			"request": "launch",
-			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Binaries\\Win64\\UnrealGame-Win64-Debug.exe",
+			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Binaries\\Win64\\UnrealGame-Win64-Debug.exe",
 			"preLaunchTask": "Swoosh Win64 Debug Build",
 			"args": [
 			],
@@ -20,7 +20,7 @@
 		{
 			"name": "Launch Swoosh (DebugGame)",
 			"request": "launch",
-			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Binaries\\Win64\\UnrealGame-Win64-DebugGame.exe",
+			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Binaries\\Win64\\UnrealGame-Win64-DebugGame.exe",
 			"preLaunchTask": "Swoosh Win64 DebugGame Build",
 			"args": [
 			],
@@ -36,7 +36,7 @@
 		{
 			"name": "Launch Swoosh (Development)",
 			"request": "launch",
-			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Binaries\\Win64\\UnrealGame.exe",
+			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Binaries\\Win64\\UnrealGame.exe",
 			"preLaunchTask": "Swoosh Win64 Development Build",
 			"args": [
 			],
@@ -52,7 +52,7 @@
 		{
 			"name": "Launch Swoosh (Test)",
 			"request": "launch",
-			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Binaries\\Win64\\UnrealGame-Win64-Test.exe",
+			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Binaries\\Win64\\UnrealGame-Win64-Test.exe",
 			"preLaunchTask": "Swoosh Win64 Test Build",
 			"args": [
 			],
@@ -68,7 +68,7 @@
 		{
 			"name": "Launch Swoosh (Shipping)",
 			"request": "launch",
-			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Binaries\\Win64\\UnrealGame-Win64-Shipping.exe",
+			"program": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Binaries\\Win64\\UnrealGame-Win64-Shipping.exe",
 			"preLaunchTask": "Swoosh Win64 Shipping Build",
 			"args": [
 			],
@@ -87,7 +87,7 @@
 			"program": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Binaries\\Win64\\UnrealEditor-Win64-Debug.exe",
 			"preLaunchTask": "SwooshEditor Win64 Debug Build",
 			"args": [
-				"C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Swoosh.uproject"
+				"C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Swoosh.uproject"
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_5.2",
 			"stopAtEntry": false,
@@ -104,7 +104,7 @@
 			"program": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Binaries\\Win64\\UnrealEditor-Win64-DebugGame.exe",
 			"preLaunchTask": "SwooshEditor Win64 DebugGame Build",
 			"args": [
-				"C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Swoosh.uproject"
+				"C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Swoosh.uproject"
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_5.2",
 			"stopAtEntry": false,
@@ -121,7 +121,7 @@
 			"program": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
 			"preLaunchTask": "SwooshEditor Win64 Development Build",
 			"args": [
-				"C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Swoosh.uproject"
+				"C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Swoosh.uproject"
 			],
 			"cwd": "C:\\Program Files\\Epic Games\\UE_5.2",
 			"stopAtEntry": false,
@@ -140,7 +140,7 @@
 			"args": [
 				"-projectfiles",
 				"-vscode",
-				"-project=C:\\Users\\Asus\\Documents\\GitHub\\Swoosh\\Swoosh.uproject",
+				"-project=C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Swoosh.uproject",
 				"-game",
 				"-engine"
 			],
