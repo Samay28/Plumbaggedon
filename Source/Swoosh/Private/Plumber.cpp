@@ -54,6 +54,7 @@ void APlumber::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 	if (UEnhancedInputComponent *EIC = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		EIC->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlumber::LookCharacter);
+		EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlumber::MoveCharacter);
 	}
 }
 
@@ -69,4 +70,17 @@ void APlumber::LookCharacter(const FInputActionValue &Value)
 		AddControllerYawInput(YawInput);
 		AddControllerPitchInput(PitchInput);
 	}
+}
+
+void APlumber::MoveCharacter(const FInputActionValue &Value)
+{
+	const FVector2D MovementValue = Value.Get<FVector2D>();
+	const FRotator Rotation = Controller->GetControlRotation();
+	const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	AddMovementInput(ForwardDirection, MovementValue.Y);
+
+	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+	AddMovementInput(RightDirection, MovementValue.X);
 }

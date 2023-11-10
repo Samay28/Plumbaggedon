@@ -38,6 +38,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *LookAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction *MoveAction;
+
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Ysensi;
 
@@ -47,6 +50,7 @@ protected:
 
 
 	void LookCharacter(const FInputActionValue &Value);
+	void MoveCharacter(const FInputActionValue &Value);
 
 private:
 	UPROPERTY(VisibleAnywhere)
