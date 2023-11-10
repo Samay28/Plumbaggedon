@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 APlumber::APlumber()
@@ -44,6 +45,12 @@ void APlumber::BeginPlay()
 void APlumber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if(!GetVelocity().IsNearlyZero())
+	{
+		FVector NewCamOffset = GetActorUpVector() * FMath::Sin(GetWorld()->GetTimeSeconds() * GetCharacterMovement()->MaxWalkSpeed/20) * BobAmount;
+		ViewCam->AddRelativeLocation(NewCamOffset);
+	}
 }
 
 // Called to bind functionality to input
@@ -55,6 +62,8 @@ void APlumber::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 	{
 		EIC->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlumber::LookCharacter);
 		EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlumber::MoveCharacter);
+		EIC->BindAction(SprintAction, ETriggerEvent::Triggered, this, &APlumber::Sprint);
+		EIC->BindAction(SprintAction, ETriggerEvent::Completed, this, &APlumber::StopSprint);
 	}
 }
 
@@ -83,4 +92,16 @@ void APlumber::MoveCharacter(const FInputActionValue &Value)
 
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	AddMovementInput(RightDirection, MovementValue.X);
+}
+
+void APlumber::Sprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 500.0f;
+	// BobSpeed = 12.0f;
+}
+
+void APlumber::StopSprint()
+{	
+	// BobSpeed = 10.0f;
+	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 }

@@ -41,16 +41,19 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *MoveAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction *SprintAction;
+
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Ysensi;
 
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Xsensi;
 
-
-
 	void LookCharacter(const FInputActionValue &Value);
 	void MoveCharacter(const FInputActionValue &Value);
+	void Sprint();
+	void StopSprint();
 
 private:
 	UPROPERTY(VisibleAnywhere)
