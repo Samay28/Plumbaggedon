@@ -48,11 +48,7 @@ void APlumber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// if(!GetVelocity().IsNearlyZero())
-	// {
-	// 	FVector NewCamOffset = GetActorUpVector() * FMath::Sin(GetWorld()->GetTimeSeconds() * GetCharacterMovement()->MaxWalkSpeed/20) * BobAmount;
-	// 	ViewCam->AddRelativeLocation(NewCamOffset);
-	// }
+	
 }
 
 // Called to bind functionality to input
