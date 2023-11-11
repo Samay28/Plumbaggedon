@@ -17,6 +17,8 @@ APlumber::APlumber()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpingArm"));
 	SpringArm->SetupAttachment(GetRootComponent());
 	SpringArm->TargetArmLength = 0;
+	SpringArm->bEnableCameraRotationLag = true;
+	SpringArm->CameraRotationLagSpeed = 9.0f;
 
 	ViewCam = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	ViewCam->SetupAttachment(SpringArm);
@@ -46,11 +48,11 @@ void APlumber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(!GetVelocity().IsNearlyZero())
-	{
-		FVector NewCamOffset = GetActorUpVector() * FMath::Sin(GetWorld()->GetTimeSeconds() * GetCharacterMovement()->MaxWalkSpeed/20) * BobAmount;
-		ViewCam->AddRelativeLocation(NewCamOffset);
-	}
+	// if(!GetVelocity().IsNearlyZero())
+	// {
+	// 	FVector NewCamOffset = GetActorUpVector() * FMath::Sin(GetWorld()->GetTimeSeconds() * GetCharacterMovement()->MaxWalkSpeed/20) * BobAmount;
+	// 	ViewCam->AddRelativeLocation(NewCamOffset);
+	// }
 }
 
 // Called to bind functionality to input
@@ -101,7 +103,7 @@ void APlumber::Sprint()
 }
 
 void APlumber::StopSprint()
-{	
+{
 	// BobSpeed = 10.0f;
 	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 }

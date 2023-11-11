@@ -65,9 +65,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USpotLightComponent *FlashLight;
 
-	UPROPERTY(EditAnywhere, Category = "Head Bob")
-	float BobSpeed = 10.0f;
+	// UPROPERTY(EditAnywhere, Category = "Head Bob")
+	// float BobSpeed = 10.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Head Bob")
-	float BobAmount = 10.0f;
+	// UPROPERTY(EditAnywhere, Category = "Head Bob")
+	// float BobAmount = 10.0f;
 };
