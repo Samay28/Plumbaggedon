@@ -6,7 +6,11 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
+#include "Components/Image.h"
+#include "Components/WidgetComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Valve.h"
 
 // Sets default values
 APlumber::APlumber()
@@ -41,6 +45,14 @@ void APlumber::BeginPlay()
 			Subsystem->AddMappingContext(PlumberMappingContext, 0);
 		}
 	}
+	if (WidgetClass)
+	{
+		MainUI = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
+		if (MainUI)
+		{
+			MainUI->AddToViewport();
+		}
+	}
 }
 
 // Called every frame
@@ -48,7 +60,32 @@ void APlumber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	
+
+	FVector StartLocation = GetActorLocation();
+	FVector ForwardVector = GetActorForwardVector();
+
+	float RaycastLength = 1000.0f;
+	FVector EndLocation = StartLocation + (ForwardVector * RaycastLength);
+
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this);
+	UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
+
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, CollisionParams))
+	{
+		AValve *Valve = Cast<AValve>(HitResult.GetActor());
+		if (Valve)
+		{
+			CrosshairImage->SetColorAndOpacity(FLinearColor::Red);
+			UE_LOG(LogTemp, Warning, TEXT("Detected %s"), *HitResult.GetActor()->GetName());
+		}
+		else
+		{
+			CrosshairImage->SetColorAndOpacity(FLinearColor::White);
+			UE_LOG(LogTemp, Warning, TEXT("Lol %s"), *HitResult.GetActor()->GetName());
+		}
+	}
 }
 
 // Called to bind functionality to input

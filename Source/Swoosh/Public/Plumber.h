@@ -13,6 +13,7 @@ class FInput;
 class UCameraComponent;
 class USpringArmComponent;
 class USpotLightComponent;
+class UWidgetComponent;
 
 UCLASS()
 class SWOOSH_API APlumber : public ACharacter
@@ -50,6 +51,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Xsensi;
 
+	UPROPERTY(EditDefaultsOnly, Category = Widgets)
+    TSubclassOf<class UUserWidget> WidgetClass;
+
 	void LookCharacter(const FInputActionValue &Value);
 	void MoveCharacter(const FInputActionValue &Value);
 	void Sprint();
@@ -65,9 +69,13 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USpotLightComponent *FlashLight;
 
+	UPROPERTY(EditAnywhere)
+	UUserWidget* MainUI;
+
 	// UPROPERTY(EditAnywhere, Category = "Head Bob")
 	// float BobSpeed = 10.0f;
 
 	// UPROPERTY(EditAnywhere, Category = "Head Bob")
 	// float BobAmount = 10.0f;
+	// class AValve* ValveActor;
 };
