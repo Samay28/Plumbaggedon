@@ -1,27 +1,28 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Valve.h"
-// #include "Components/StaticMeshComponent.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 AValve::AValve()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame. You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	// Create a static mesh component
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
+	RootComponent = StaticMeshComponent;
+
+	// Set up the static mesh or other necessary properties for collision
+	// StaticMeshComponent->SetStaticMesh(YourMeshAsset); // Uncomment and replace with your mesh asset
+	// StaticMeshComponent->SetCollisionProfileName("YourCollisionProfile"); // Uncomment and replace with your collision profile
 }
 
 // Called when the game starts or when spawned
 void AValve::BeginPlay()
 {
 	Super::BeginPlay();
-	// ValveMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ValveMesh"));
-
-	// static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("StaticMesh'/Content/Megascans/3D_Assets/Steering_Wheel_wcvodee/S_Steering_Wheel_wcvodee_lod3_Var1.uasset'"));
-	// if (MeshAsset.Succeeded())
-	// {
-	// 	ValveMesh->SetStaticMesh(MeshAsset.Object);
-	// }
-	// ValveMesh->SetupAttachment(GetRootComponent());
+	
 }
 
 // Called every frame

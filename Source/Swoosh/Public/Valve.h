@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Valve.generated.h"
 
-// class UStaticMeshComponent; 
+class UStaticMeshComponent; 
 UCLASS()
 class SWOOSH_API AValve : public AActor
 {
@@ -23,6 +23,6 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	// UPROPERTY(VisibleAnywhere)
-	// UStaticMeshComponent* ValveMesh;
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* StaticMeshComponent;
 };

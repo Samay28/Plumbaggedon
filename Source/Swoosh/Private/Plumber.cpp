@@ -60,11 +60,10 @@ void APlumber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
 	FVector StartLocation = GetActorLocation();
 	FVector ForwardVector = GetActorForwardVector();
 
-	float RaycastLength = 1000.0f;
+	float RaycastLength = 300.0f;
 	FVector EndLocation = StartLocation + (ForwardVector * RaycastLength);
 
 	FHitResult HitResult;
@@ -74,16 +73,18 @@ void APlumber::Tick(float DeltaTime)
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, CollisionParams))
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s"), *HitResult.GetActor()->GetName());
+
 		AValve *Valve = Cast<AValve>(HitResult.GetActor());
 		if (Valve)
 		{
 			CrosshairImage->SetColorAndOpacity(FLinearColor::Red);
-			UE_LOG(LogTemp, Warning, TEXT("Detected %s"), *HitResult.GetActor()->GetName());
+			UE_LOG(LogTemp, Warning, TEXT("Detected Valve!"));
 		}
 		else
 		{
 			CrosshairImage->SetColorAndOpacity(FLinearColor::White);
-			UE_LOG(LogTemp, Warning, TEXT("Lol %s"), *HitResult.GetActor()->GetName());
+			UE_LOG(LogTemp, Warning, TEXT("Detected Actor, but not a Valve."));
 		}
 	}
 }
