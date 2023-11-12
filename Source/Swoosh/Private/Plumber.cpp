@@ -60,8 +60,8 @@ void APlumber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FVector StartLocation = GetActorLocation();
-	FVector ForwardVector = GetActorForwardVector();
+	FVector StartLocation = ViewCam->GetComponentLocation();
+	FVector ForwardVector = ViewCam->GetForwardVector();
 
 	float RaycastLength = 300.0f;
 	FVector EndLocation = StartLocation + (ForwardVector * RaycastLength);
@@ -71,7 +71,7 @@ void APlumber::Tick(float DeltaTime)
 	CollisionParams.AddIgnoredActor(this);
 	UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
 
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, CollisionParams))
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s"), *HitResult.GetActor()->GetName());
 
