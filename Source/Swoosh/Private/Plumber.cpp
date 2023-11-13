@@ -108,7 +108,7 @@ void APlumber::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 		EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlumber::MoveCharacter);
 		EIC->BindAction(SprintAction, ETriggerEvent::Triggered, this, &APlumber::Sprint);
 		EIC->BindAction(SprintAction, ETriggerEvent::Completed, this, &APlumber::StopSprint);
-		EIC->BindAction(InteractAction, ETriggerEvent::Started, this, &APlumber::StartInteract);
+		EIC->BindAction(InteractAction, ETriggerEvent::Triggered, this, &APlumber::StartInteract);
 		EIC->BindAction(InteractAction, ETriggerEvent::Completed, this, &APlumber::StopInteract);
 	}
 }
@@ -194,6 +194,8 @@ void APlumber::Interact()
 			{
 				// Clear the timer when rotation is not needed
 				GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
+				UE_LOG(LogTemp, Warning, TEXT("Closing Stopped"));
+
 			}
 		}
 		else
