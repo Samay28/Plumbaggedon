@@ -4,6 +4,7 @@
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
+// Sets default values
 AValve::AValve()
 {
 	// Set this actor to call Tick() every frame. You can turn this off to improve performance if you don't need it.
@@ -13,16 +14,20 @@ AValve::AValve()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
 	RootComponent = StaticMeshComponent;
 
-	// Set up the static mesh or other necessary properties for collision
-	// StaticMeshComponent->SetStaticMesh(YourMeshAsset); // Uncomment and replace with your mesh asset
-	// StaticMeshComponent->SetCollisionProfileName("YourCollisionProfile"); // Uncomment and replace with your collision profile
+	// Ensure that StaticMeshComponent is valid
+	if (!ensure(StaticMeshComponent))
+	{
+		UE_LOG(LogTemp, Error, TEXT("StaticMeshComponent creation failed in AValve constructor."));
+		return;
+	}
 }
+
 
 // Called when the game starts or when spawned
 void AValve::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	ValvesClosed = 0;
 }
 
 // Called every frame
@@ -30,3 +35,9 @@ void AValve::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
+
+void AValve::CloseValve()
+{
+    
+}
+

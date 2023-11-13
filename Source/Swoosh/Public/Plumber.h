@@ -14,6 +14,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class USpotLightComponent;
 class UWidgetComponent;
+struct FTimerHandle;
 
 UCLASS()
 class SWOOSH_API APlumber : public ACharacter
@@ -28,7 +29,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
-
+	bool bShouldRotate;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -45,6 +47,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *SprintAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction *InteractAction;
+
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Ysensi;
 
@@ -57,7 +62,12 @@ protected:
 	void LookCharacter(const FInputActionValue &Value);
 	void MoveCharacter(const FInputActionValue &Value);
 	void Sprint();
+	void Interact();
+	void StopInteract();
+	void StartInteract();
 	void StopSprint();
+
+	FTimerHandle InteractTimerHandle;
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -78,4 +88,6 @@ private:
 	// UPROPERTY(EditAnywhere, Category = "Head Bob")
 	// float BobAmount = 10.0f;
 	// class AValve* ValveActor;
+	class AValve *ValveActor;
+	
 };
