@@ -92,10 +92,10 @@ void APlumber::Tick(float DeltaTime)
 		CrosshairImage->SetColorAndOpacity(FLinearColor::White);
 	}
 
-	if (!Valve->MyInstance->IsValveCompleted)
-	{
-		GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
-	}
+	// if (!Valve->IsValveCompleted)
+	// {
+	// 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
+	// }
 }
 
 // Called to bind functionality to input
@@ -168,7 +168,7 @@ void APlumber::Interact()
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
 		Valve = Cast<AValve>(HitResult.GetActor());
-		if (Valve && !Valve->MyInstance->IsValveCompleted)
+		if (Valve && !Valve->IsValveCompleted)
 		{
 			// Valve->SetInteractingPlumber(this);
 			// Create a rotation delta with the desired pitch increment
@@ -178,17 +178,17 @@ void APlumber::Interact()
 			Valve->AddActorWorldRotation(RotationDelta);
 
 			// Update the total rotation
-			Valve->MyInstance->TotalRotation += 1.0f;
+			Valve->TotalRotation += 1.0f;
 
 			// Log a message indicating that the closing has started
 			UE_LOG(LogTemp, Warning, TEXT("Closing started"));
 
 			// Check if the total rotation exceeds 720 degrees
-			if (Valve->MyInstance->TotalRotation >= 720.0f)
+			if (Valve->TotalRotation >= 720.0f)
 			{
 				Valve->CloseValve();
 				StopInteract();
-				Valve->MyInstance->IsValveCompleted = true;
+				Valve->IsValveCompleted = true;
 				UE_LOG(LogTemp, Warning, TEXT("Closing Stopped. Total rotation exceeded 720 degrees."));
 			}
 			else
@@ -199,7 +199,6 @@ void APlumber::Interact()
 		}
 		else
 		{	
-			UE_LOG(LogTemp, Warning, TEXT("If check Failed"));
 			StopInteract();
 		}
 	}

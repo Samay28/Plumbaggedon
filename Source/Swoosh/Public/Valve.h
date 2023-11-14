@@ -1,4 +1,4 @@
-
+// AValve.h
 #pragma once
 
 #include "CoreMinimal.h"
@@ -11,35 +11,26 @@ class UStaticMeshComponent;
 UCLASS()
 class SWOOSH_API AValve : public AActor
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	AValve();
+    AValve();
 
-	virtual void Tick(float DeltaTime) override;
+    virtual void Tick(float DeltaTime) override;
 
-	// Function to get the instance of the valve
-	static AValve *GetInstance();
+    void CloseValve();
+   static int ValvesClosed;
 
-	void CloseValve();
-	int ValvesClosed;
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    bool IsValveCompleted;
 
-	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
-	bool IsValveCompleted;
-
-	static AValve *MyInstance;
-
-	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
-	float TotalRotation;
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    float TotalRotation;
 
 protected:
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
 
 private:
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent *StaticMeshComponent;
-
-	// APlumber* InteractingPlumber;
-
-	// The single instance of the valve
+    UPROPERTY(VisibleAnywhere)
+    UStaticMeshComponent* StaticMeshComponent;
 };
