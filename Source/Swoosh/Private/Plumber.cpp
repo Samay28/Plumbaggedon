@@ -30,7 +30,9 @@ APlumber::APlumber()
 
 	FlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("FlashLight"));
 	FlashLight->SetupAttachment(ViewCam);
+
 	bShouldRotate = false;
+	TotalRotation = 0;
 }
 
 // Called when the game starts or when spawned
@@ -167,35 +169,31 @@ void APlumber::Interact()
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
 		AValve *Valve = Cast<AValve>(HitResult.GetActor());
-		if (Valve)
+		if (bShouldRotate && !Valve->IsValveCompleted)
 		{
+			// Create a rotation delta with the desired pitch increment
+			FRotator RotationDelta = FRotator(0.0f, 0.0f, 1.0f);
 
-			if (bShouldRotate)
+			// Rotate the valve around the X-axis
+			Valve->AddActorWorldRotation(RotationDelta);
+
+			// Update the total rotation
+			TotalRotation += 1.0f;
+
+			// Log a message indicating that the closing has started
+			UE_LOG(LogTemp, Warning, TEXT("Closing started"));
+
+			// Check if the total rotation exceeds 720 degrees
+			if (TotalRotation >= 720.0f)
 			{
-				// Get the current rotation of the valve
-				FRotator CurrentRotation = Valve->GetActorRotation();
-
-				// Calculate the new pitch rotation by adding the increment
-				float NewPitch = FMath::Min(CurrentRotation.Pitch + 1.0f, 90.0f);
-
-				// Create a new rotation with the updated pitch, keeping yaw and roll unchanged
-				FRotator NewRotation = FRotator(NewPitch, CurrentRotation.Yaw, CurrentRotation.Roll);
-
-				// Set the new rotation for the valve
-				Valve->SetActorRotation(NewRotation);
-
-				// Log a message indicating that the closing has started
-				UE_LOG(LogTemp, Warning, TEXT("Closing started"));
-
-				// Schedule a callback to continue rotation every frame
-				GetWorld()->GetTimerManager().SetTimer(InteractTimerHandle, this, &APlumber::Interact, 0.01f, true);
+				Valve->CloseValve();
+				StopInteract();
+				UE_LOG(LogTemp, Warning, TEXT("Closing Stopped. Total rotation exceeded 720 degrees."));
 			}
 			else
 			{
-				// Clear the timer when rotation is not needed
-				GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
-				UE_LOG(LogTemp, Warning, TEXT("Closing Stopped"));
-
+				// Schedule a callback to continue rotation every frame
+				GetWorld()->GetTimerManager().SetTimer(InteractTimerHandle, this, &APlumber::Interact, 0.01f, true);
 			}
 		}
 		else

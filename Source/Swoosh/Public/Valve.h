@@ -21,6 +21,9 @@ public:
 	void CloseValve();
 	int ValvesClosed;
 
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    bool IsValveCompleted;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -68,6 +68,7 @@ protected:
 	void StopSprint();
 
 	FTimerHandle InteractTimerHandle;
+	float TotalRotation;
 
 private:
 	UPROPERTY(VisibleAnywhere)

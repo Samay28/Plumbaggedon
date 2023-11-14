@@ -20,6 +20,7 @@ AValve::AValve()
 		UE_LOG(LogTemp, Error, TEXT("StaticMeshComponent creation failed in AValve constructor."));
 		return;
 	}
+	IsValveCompleted = false;
 }
 
 
@@ -38,6 +39,7 @@ void AValve::Tick(float DeltaTime)
 
 void AValve::CloseValve()
 {
-    
+	ValvesClosed++;
+	IsValveCompleted = true;
 }
 
