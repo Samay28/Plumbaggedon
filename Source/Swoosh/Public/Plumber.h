@@ -14,6 +14,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class USpotLightComponent;
 class UWidgetComponent;
+class AValve;
 struct FTimerHandle;
 
 UCLASS()
@@ -29,7 +30,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
-	bool bShouldRotate;
+	// bool bShouldRotate;
+
+	AValve *Valve;
 	
 protected:
 	// Called when the game starts or when spawned
@@ -68,7 +71,6 @@ protected:
 	void StopSprint();
 
 	FTimerHandle InteractTimerHandle;
-	float TotalRotation;
 
 private:
 	UPROPERTY(VisibleAnywhere)

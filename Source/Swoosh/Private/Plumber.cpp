@@ -31,8 +31,7 @@ APlumber::APlumber()
 	FlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("FlashLight"));
 	FlashLight->SetupAttachment(ViewCam);
 
-	bShouldRotate = false;
-	TotalRotation = 0;
+	// bShouldRotate = false;
 }
 
 // Called when the game starts or when spawned
@@ -78,7 +77,7 @@ void APlumber::Tick(float DeltaTime)
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
 
-		AValve *Valve = Cast<AValve>(HitResult.GetActor());
+		Valve = Cast<AValve>(HitResult.GetActor());
 		if (Valve)
 		{
 			CrosshairImage->SetColorAndOpacity(FLinearColor::Red);
@@ -93,7 +92,7 @@ void APlumber::Tick(float DeltaTime)
 		CrosshairImage->SetColorAndOpacity(FLinearColor::White);
 	}
 
-	if (!bShouldRotate)
+	if (!Valve->MyInstance->IsValveCompleted)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
 	}
@@ -144,7 +143,7 @@ void APlumber::MoveCharacter(const FInputActionValue &Value)
 
 void APlumber::Sprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 500.0f;
+	GetCharacterMovement()->MaxWalkSpeed = 5000.0f;
 	// BobSpeed = 12.0f;
 }
 
@@ -168,9 +167,10 @@ void APlumber::Interact()
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
-		AValve *Valve = Cast<AValve>(HitResult.GetActor());
-		if (bShouldRotate && !Valve->IsValveCompleted)
+		Valve = Cast<AValve>(HitResult.GetActor());
+		if (Valve && !Valve->MyInstance->IsValveCompleted)
 		{
+			// Valve->SetInteractingPlumber(this);
 			// Create a rotation delta with the desired pitch increment
 			FRotator RotationDelta = FRotator(0.0f, 0.0f, 1.0f);
 
@@ -178,16 +178,17 @@ void APlumber::Interact()
 			Valve->AddActorWorldRotation(RotationDelta);
 
 			// Update the total rotation
-			TotalRotation += 1.0f;
+			Valve->MyInstance->TotalRotation += 1.0f;
 
 			// Log a message indicating that the closing has started
 			UE_LOG(LogTemp, Warning, TEXT("Closing started"));
 
 			// Check if the total rotation exceeds 720 degrees
-			if (TotalRotation >= 720.0f)
+			if (Valve->MyInstance->TotalRotation >= 720.0f)
 			{
 				Valve->CloseValve();
 				StopInteract();
+				Valve->MyInstance->IsValveCompleted = true;
 				UE_LOG(LogTemp, Warning, TEXT("Closing Stopped. Total rotation exceeded 720 degrees."));
 			}
 			else
@@ -197,7 +198,8 @@ void APlumber::Interact()
 			}
 		}
 		else
-		{
+		{	
+			UE_LOG(LogTemp, Warning, TEXT("If check Failed"));
 			StopInteract();
 		}
 	}
@@ -205,12 +207,12 @@ void APlumber::Interact()
 
 void APlumber::StartInteract()
 {
-	bShouldRotate = true;
+	// bShouldRotate = true;
 	Interact(); // Call the function once when the key is initially pressed
 }
 
 void APlumber::StopInteract()
 {
-	bShouldRotate = false;
+	// bShouldRotate = false;
 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
 }
