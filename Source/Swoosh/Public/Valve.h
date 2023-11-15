@@ -19,7 +19,7 @@ public:
     virtual void Tick(float DeltaTime) override;
 
     void CloseValve();
-   static int ValvesClosed;
+    static int ValvesClosed;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
     bool IsValveCompleted;
@@ -32,5 +32,5 @@ protected:
 
 private:
     UPROPERTY(VisibleAnywhere)
-    UStaticMeshComponent* StaticMeshComponent;
+    UStaticMeshComponent *StaticMeshComponent;
 };

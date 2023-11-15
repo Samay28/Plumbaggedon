@@ -14,6 +14,7 @@ AValve::AValve()
 void AValve::BeginPlay()
 {
     Super::BeginPlay();
+    ValvesClosed = 0;
 }
 
 void AValve::Tick(float DeltaTime)
