@@ -1,5 +1,6 @@
 // AValve.cpp
 #include "Valve.h"
+#include "Engine/StaticMeshActor.h"
 
 int AValve::ValvesClosed = 0;
 
@@ -27,5 +28,20 @@ void AValve::Tick(float DeltaTime)
 void AValve::CloseValve()
 {
     ValvesClosed++;
+    if (WaterFlows.Num() > 0)
+    {
+        // Iterate through each element in the WaterFlows array
+        for (AStaticMeshActor *CurrentWaterFlow : WaterFlows)
+        {
+            // Check if the current element is valid
+            if (CurrentWaterFlow)
+            {
+                // Deactivate the static mesh actor by setting its visibility to false
+                CurrentWaterFlow->SetActorHiddenInGame(true);
+                CurrentWaterFlow->SetActorEnableCollision(false);
+            }
+        }
+    }
+
     UE_LOG(LogTemp, Warning, TEXT("Valves Closed : %d"), ValvesClosed);
 }

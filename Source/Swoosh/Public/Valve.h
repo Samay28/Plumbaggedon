@@ -7,7 +7,7 @@
 #include "Valve.generated.h"
 
 class UStaticMeshComponent;
-
+class AStaticMeshActor;
 UCLASS()
 class SWOOSH_API AValve : public AActor
 {
@@ -26,6 +26,9 @@ public:
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
     float TotalRotation;
+    
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    TArray<AStaticMeshActor *> WaterFlows;
 
 protected:
     virtual void BeginPlay() override;
