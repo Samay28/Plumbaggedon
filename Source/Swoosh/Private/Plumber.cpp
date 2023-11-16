@@ -11,6 +11,10 @@
 #include "Components/WidgetComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "PhysicalMaterials/PhysicalMaterial.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
+#include "Components/TimelineComponent.h"
 #include "Valve.h"
 
 // Sets default values
@@ -31,7 +35,12 @@ APlumber::APlumber()
 	FlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("FlashLight"));
 	FlashLight->SetupAttachment(ViewCam);
 
-	// bShouldRotate = false;
+	FootstepAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("FootstepAudioComponent"));
+	FootstepAudioComponent->SetupAttachment(GetRootComponent());
+	FootstepAudioComponent->bAutoActivate = false;
+
+	SoundTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("SoundTimeline"));
+
 }
 
 // Called when the game starts or when spawned
@@ -56,6 +65,7 @@ void APlumber::BeginPlay()
 			MainUI->AddToViewport();
 		}
 	}
+	FootstepAudioComponent->SetSound(WaterFootstepSound);
 }
 
 // Called every frame
@@ -91,11 +101,7 @@ void APlumber::Tick(float DeltaTime)
 	{
 		CrosshairImage->SetColorAndOpacity(FLinearColor::White);
 	}
-
-	// if (!Valve->IsValveCompleted)
-	// {
-	// 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
-	// }
+	
 }
 
 // Called to bind functionality to input
@@ -139,6 +145,15 @@ void APlumber::MoveCharacter(const FInputActionValue &Value)
 
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	AddMovementInput(RightDirection, MovementValue.X);
+
+	if (GetVelocity().SizeSquared() > 0.0f)
+    {
+        SoundTimeline->Play();
+    }
+	else
+	{
+		SoundTimeline->Stop();
+	}
 }
 
 void APlumber::Sprint()
@@ -152,6 +167,7 @@ void APlumber::StopSprint()
 	// BobSpeed = 10.0f;
 	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 }
+
 void APlumber::Interact()
 {
 	FVector StartLocation = ViewCam->GetComponentLocation();
@@ -198,7 +214,7 @@ void APlumber::Interact()
 			}
 		}
 		else
-		{	
+		{
 			StopInteract();
 		}
 	}
@@ -214,4 +230,11 @@ void APlumber::StopInteract()
 {
 	// bShouldRotate = false;
 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
+}
+void APlumber::PlayFootstepSound()
+{
+	if (FootstepAudioComponent && FootstepAudioComponent->Sound)
+	{
+		FootstepAudioComponent->Play();
+	}
 }

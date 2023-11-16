@@ -15,6 +15,8 @@ class USpringArmComponent;
 class USpotLightComponent;
 class UWidgetComponent;
 class AValve;
+class UAudioComponent;
+class UTimelineComponent;
 struct FTimerHandle;
 
 UCLASS()
@@ -53,6 +55,18 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *InteractAction;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Audio)
+	UAudioComponent* FootstepAudioComponent;
+
+	UPROPERTY(EditAnywhere, Category = Audio)
+    class USoundCue* WaterFootstepSound;
+
+    UPROPERTY(EditAnywhere, Category = Audio)
+    class USoundCue* NonWaterFootstepSound;
+
+	UPROPERTY(EditAnywhere, Category = Audio)
+    UTimelineComponent* SoundTimeline;
+
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Ysensi;
 
@@ -69,6 +83,7 @@ protected:
 	void StopInteract();
 	void StartInteract();
 	void StopSprint();
+	void PlayFootstepSound();
 
 	FTimerHandle InteractTimerHandle;
 
