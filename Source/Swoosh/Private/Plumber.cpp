@@ -14,7 +14,6 @@
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
-#include "Components/TimelineComponent.h"
 #include "Valve.h"
 
 // Sets default values
@@ -35,11 +34,6 @@ APlumber::APlumber()
 	FlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("FlashLight"));
 	FlashLight->SetupAttachment(ViewCam);
 
-	FootstepAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("FootstepAudioComponent"));
-	FootstepAudioComponent->SetupAttachment(GetRootComponent());
-	FootstepAudioComponent->bAutoActivate = false;
-
-	SoundTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("SoundTimeline"));
 
 }
 
@@ -65,7 +59,6 @@ void APlumber::BeginPlay()
 			MainUI->AddToViewport();
 		}
 	}
-	FootstepAudioComponent->SetSound(WaterFootstepSound);
 }
 
 // Called every frame
@@ -146,14 +139,7 @@ void APlumber::MoveCharacter(const FInputActionValue &Value)
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	AddMovementInput(RightDirection, MovementValue.X);
 
-	if (GetVelocity().SizeSquared() > 0.0f)
-    {
-        SoundTimeline->Play();
-    }
-	else
-	{
-		SoundTimeline->Stop();
-	}
+
 }
 
 void APlumber::Sprint()
@@ -231,10 +217,10 @@ void APlumber::StopInteract()
 	// bShouldRotate = false;
 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
 }
-void APlumber::PlayFootstepSound()
-{
-	if (FootstepAudioComponent && FootstepAudioComponent->Sound)
-	{
-		FootstepAudioComponent->Play();
-	}
-}
+// void APlumber::PlayFootstepSound()
+// {
+// 	if (FootstepAudioComponent && FootstepAudioComponent->Sound)
+// 	{
+// 		FootstepAudioComponent->Play();
+// 	}
+// }
