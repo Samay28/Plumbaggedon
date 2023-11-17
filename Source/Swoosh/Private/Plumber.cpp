@@ -158,7 +158,7 @@ void APlumber::MoveCharacter(const FInputActionValue &Value)
 
 void APlumber::Sprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 5000.0f;
+	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
 	// BobSpeed = 12.0f;
 }
 
