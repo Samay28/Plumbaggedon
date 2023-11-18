@@ -32,3 +32,7 @@ void AAIEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+UBehaviorTree *AAIEnemy::GetBehaviorTree() const
+{
+    return Tree;
+}
