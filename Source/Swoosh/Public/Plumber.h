@@ -91,5 +91,5 @@ private:
 	// float BobAmount = 10.0f;
 	// class AValve* ValveActor;
 	class AValve *ValveActor;
-	
+
 };

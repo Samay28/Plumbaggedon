@@ -19,7 +19,7 @@
 // Sets default values
 APlumber::APlumber()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	
 	PrimaryActorTick.bCanEverTick = true;
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpingArm"));
@@ -154,6 +154,7 @@ void APlumber::StopSprint()
 	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 }
 
+
 void APlumber::Interact()
 {
 	FVector StartLocation = ViewCam->GetComponentLocation();
@@ -217,10 +218,4 @@ void APlumber::StopInteract()
 	// bShouldRotate = false;
 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
 }
-// void APlumber::PlayFootstepSound()
-// {
-// 	if (FootstepAudioComponent && FootstepAudioComponent->Sound)
-// 	{
-// 		FootstepAudioComponent->Play();
-// 	}
-// }
+

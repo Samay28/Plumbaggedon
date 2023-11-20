@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Perception/AIPerceptionTypes.h"
 #include "Enemy_AIController.generated.h"
 
-/**
- * 
- */
+class UAISenseConfig_Sight;
+
 UCLASS()
 class SWOOSH_API AEnemy_AIController : public AAIController
 {
@@ -20,5 +20,10 @@ public:
 protected:
 
 	virtual void OnPossess(APawn* InPawn) override;
-	
+	UAISenseConfig_Sight* SightConfig;
+
+	void SetUpPerceptionSystem();
+
+	UFUNCTION()
+	void OnTargetDetected(AActor* Actor, FAIStimulus const Stimulus);
 };

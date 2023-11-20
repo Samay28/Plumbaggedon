@@ -7,8 +7,7 @@
 #include "InputActionValue.h"
 #include "SwooshCharacter.generated.h"
 
-
-UCLASS(config=Game)
+UCLASS(config = Game)
 class ASwooshCharacter : public ACharacter
 {
 	GENERATED_BODY()
@@ -19,41 +18,42 @@ class ASwooshCharacter : public ACharacter
 
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
-	
+	class UCameraComponent *FollowCamera;
+
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputMappingContext* DefaultMappingContext;
+	class UInputMappingContext *DefaultMappingContext;
 
 	/** Jump Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* JumpAction;
+	class UInputAction *JumpAction;
 
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* MoveAction;
+	class UInputAction *MoveAction;
 
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* LookAction;
+	class UInputAction *LookAction;
 
 public:
 	ASwooshCharacter();
-	
 
 protected:
-
 	/** Called for movement input */
-	void Move(const FInputActionValue& Value);
+	void Move(const FInputActionValue &Value);
 
 	/** Called for looking input */
-	void Look(const FInputActionValue& Value);
-			
+	void Look(const FInputActionValue &Value);
+
+	class UAIPerceptionStimuliSourceComponent *StimulusSource;
+
+	void SetupStimulusSource();
 
 protected:
 	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
+
 	// To add mapping context
 	virtual void BeginPlay();
 
@@ -61,6 +61,5 @@ public:
 	/** Returns CameraBoom subobject **/
 	// FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	// /** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	FORCEINLINE class UCameraComponent *GetFollowCamera() const { return FollowCamera; }
 };
-

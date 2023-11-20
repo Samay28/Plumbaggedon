@@ -2,11 +2,15 @@
 
 
 #include "Enemy_AIController.h"
+#include "Swoosh/SwooshCharacter.h"
 #include "AIEnemy.h"
+#include "Perception/AIPerceptionComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Perception/AISenseConfig_Sight.h"
 
 AEnemy_AIController::AEnemy_AIController(FObjectInitializer const& ObjectInitializer)
 {
-
+    SetUpPerceptionSystem();
 }
 void AEnemy_AIController::OnPossess(APawn* InPawn)
 {
@@ -22,3 +26,37 @@ void AEnemy_AIController::OnPossess(APawn* InPawn)
         }
     }
 }
+
+void AEnemy_AIController::SetUpPerceptionSystem()
+{
+    SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Config"));
+    if(SightConfig)
+    {
+        SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component")));
+        SightConfig->SightRadius = 500.0f;
+        SightConfig->LoseSightRadius = SightConfig->SightRadius + 25.f;
+        SightConfig->PeripheralVisionAngleDegrees = 90.0f;
+        SightConfig->SetMaxAge(5.f);
+        SightConfig->AutoSuccessRangeFromLastSeenLocation = 520.0f;
+        SightConfig->DetectionByAffiliation.bDetectEnemies = true;
+        SightConfig->DetectionByAffiliation.bDetectFriendlies = true;
+        SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
+
+
+        GetPerceptionComponent()->SetDominantSense(*SightConfig->GetSenseImplementation());
+        GetPerceptionComponent()->OnTargetPerceptionUpdated.AddDynamic(this, &AEnemy_AIController::OnTargetDetected);
+        GetPerceptionComponent()->ConfigureSense(*SightConfig);
+    }
+}
+
+void AEnemy_AIController::OnTargetDetected(AActor* Actor, FAIStimulus const Stimulus)
+{
+    if (auto* const ch = Cast<ASwooshCharacter>(Actor))
+    {
+        bool CanSeePlayer = Stimulus.WasSuccessfullySensed();
+        UE_LOG(LogTemp, Warning, TEXT("Player detected. CanSeePlayer: %s"), CanSeePlayer ? TEXT("true") : TEXT("false"));
+
+        GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", CanSeePlayer);
+    }
+}
+
