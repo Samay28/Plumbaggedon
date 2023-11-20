@@ -1,25 +1,25 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Enemy_AIController.h"
-#include "Swoosh/SwooshCharacter.h"
+#include "Plumber.h"
 #include "AIEnemy.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
-AEnemy_AIController::AEnemy_AIController(FObjectInitializer const& ObjectInitializer)
+AEnemy_AIController::AEnemy_AIController(FObjectInitializer const &ObjectInitializer)
 {
     SetUpPerceptionSystem();
 }
-void AEnemy_AIController::OnPossess(APawn* InPawn)
+void AEnemy_AIController::OnPossess(APawn *InPawn)
 {
     Super::OnPossess(InPawn);
-    if(AAIEnemy* const bug = Cast<AAIEnemy>(InPawn))
+    if (AAIEnemy *const bug = Cast<AAIEnemy>(InPawn))
     {
-        if(UBehaviorTree* const Tree = bug->GetBehaviorTree())
+        if (UBehaviorTree *const Tree = bug->GetBehaviorTree())
         {
-            UBlackboardComponent* b;
+            UBlackboardComponent *b;
             UseBlackboard(Tree->BlackboardAsset, b);
             Blackboard = b;
             RunBehaviorTree(Tree);
@@ -30,7 +30,7 @@ void AEnemy_AIController::OnPossess(APawn* InPawn)
 void AEnemy_AIController::SetUpPerceptionSystem()
 {
     SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Config"));
-    if(SightConfig)
+    if (SightConfig)
     {
         SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component")));
         SightConfig->SightRadius = 500.0f;
@@ -42,21 +42,41 @@ void AEnemy_AIController::SetUpPerceptionSystem()
         SightConfig->DetectionByAffiliation.bDetectFriendlies = true;
         SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
 
-
         GetPerceptionComponent()->SetDominantSense(*SightConfig->GetSenseImplementation());
         GetPerceptionComponent()->OnTargetPerceptionUpdated.AddDynamic(this, &AEnemy_AIController::OnTargetDetected);
         GetPerceptionComponent()->ConfigureSense(*SightConfig);
     }
 }
 
-void AEnemy_AIController::OnTargetDetected(AActor* Actor, FAIStimulus const Stimulus)
+void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stimulus)
 {
-    if (auto* const ch = Cast<ASwooshCharacter>(Actor))
+    bool CanSeePlayer;
+    if (auto *const ch = Cast<APlumber>(Actor))
     {
-        bool CanSeePlayer = Stimulus.WasSuccessfullySensed();
+        CanSeePlayer = Stimulus.WasSuccessfullySensed();
         UE_LOG(LogTemp, Warning, TEXT("Player detected. CanSeePlayer: %s"), CanSeePlayer ? TEXT("true") : TEXT("false"));
 
         GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", CanSeePlayer);
+
+        if (CanSeePlayer)
+        {
+            if (ACharacter *Enemy = GetCharacter())
+            {
+                if (UCharacterMovementComponent *MovementComp = Enemy->GetCharacterMovement())
+                {
+                    MovementComp->MaxWalkSpeed = 500.0f;
+                }
+            }
+        }
+        else
+        {
+            if (ACharacter *Enemy = GetCharacter())
+            {
+                if (UCharacterMovementComponent *MovementComp = Enemy->GetCharacterMovement())
+                {
+                    MovementComp->MaxWalkSpeed = 250.0f;
+                }
+            }
+        }
     }
 }
-

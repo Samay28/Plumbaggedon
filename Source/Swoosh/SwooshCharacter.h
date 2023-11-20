@@ -46,10 +46,7 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue &Value);
 
-	class UAIPerceptionStimuliSourceComponent *StimulusSource;
-
-	void SetupStimulusSource();
-
+	
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;

@@ -15,11 +15,14 @@
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
 #include "Valve.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AIPerceptionComponent.h"
+#include "Perception/AISense_Sight.h"
 
 // Sets default values
 APlumber::APlumber()
 {
-	
+
 	PrimaryActorTick.bCanEverTick = true;
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpingArm"));
@@ -34,7 +37,7 @@ APlumber::APlumber()
 	FlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("FlashLight"));
 	FlashLight->SetupAttachment(ViewCam);
 
-
+	SetupStimulusSource();
 }
 
 // Called when the game starts or when spawned
@@ -94,7 +97,6 @@ void APlumber::Tick(float DeltaTime)
 	{
 		CrosshairImage->SetColorAndOpacity(FLinearColor::White);
 	}
-	
 }
 
 // Called to bind functionality to input
@@ -138,8 +140,6 @@ void APlumber::MoveCharacter(const FInputActionValue &Value)
 
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	AddMovementInput(RightDirection, MovementValue.X);
-
-
 }
 
 void APlumber::Sprint()
@@ -153,7 +153,6 @@ void APlumber::StopSprint()
 	// BobSpeed = 10.0f;
 	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 }
-
 
 void APlumber::Interact()
 {
@@ -218,4 +217,12 @@ void APlumber::StopInteract()
 	// bShouldRotate = false;
 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
 }
-
+void APlumber::SetupStimulusSource()
+{
+	StimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));
+	if (StimulusSource)
+	{
+		StimulusSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
+		StimulusSource->RegisterWithPerceptionSystem();
+	}
+}

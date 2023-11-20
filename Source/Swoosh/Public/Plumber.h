@@ -71,6 +71,12 @@ protected:
 	void StopSprint();
 	FTimerHandle InteractTimerHandle;
 
+
+	//ai sensing
+	class UAIPerceptionStimuliSourceComponent *StimulusSource;
+
+	void SetupStimulusSource();
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent *ViewCam;
