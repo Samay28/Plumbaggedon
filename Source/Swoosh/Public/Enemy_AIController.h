@@ -15,15 +15,14 @@ class SWOOSH_API AEnemy_AIController : public AAIController
 	GENERATED_BODY()
 
 public:
-	explicit AEnemy_AIController(FObjectInitializer const& ObjectInitializer);
+	explicit AEnemy_AIController(FObjectInitializer const &ObjectInitializer);
 
 protected:
-
-	virtual void OnPossess(APawn* InPawn) override;
-	UAISenseConfig_Sight* SightConfig;
+	virtual void OnPossess(APawn *InPawn) override;
+	UAISenseConfig_Sight *SightConfig;
 
 	void SetUpPerceptionSystem();
 
 	UFUNCTION()
-	void OnTargetDetected(AActor* Actor, FAIStimulus const Stimulus);
+	void OnTargetDetected(AActor *Actor, FAIStimulus const Stimulus);
 };

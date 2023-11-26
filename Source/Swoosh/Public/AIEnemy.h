@@ -20,14 +20,19 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
-	UBehaviorTree* GetBehaviorTree() const;
+	UBehaviorTree *GetBehaviorTree() const;
+
+	UFUNCTION()
+	void OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActor,
+					  UPrimitiveComponent *OtherComp, FVector NormalImpulse,
+					  const FHitResult &Hit);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
-	UBehaviorTree* Tree;
-
+	UBehaviorTree *Tree;
 };

@@ -6,11 +6,15 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEnemy_AIController::AEnemy_AIController(FObjectInitializer const &ObjectInitializer)
 {
     SetUpPerceptionSystem();
+    // UCapsuleComponent *CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
+    // CapsuleComponent->OnComponentHit.AddDynamic(this, &AEnemyController::OnCapsuleOverlap);
+    // RootComponent = CapsuleComponent;
 }
 void AEnemy_AIController::OnPossess(APawn *InPawn)
 {

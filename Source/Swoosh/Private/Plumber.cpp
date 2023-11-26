@@ -7,7 +7,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
-#include "Components/Image.h"
+// #include "Components/Image.h"
+#include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -78,7 +79,8 @@ void APlumber::Tick(float DeltaTime)
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
-	UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
+	// UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
+	UTextBlock* InteractTxt = Cast<UTextBlock>(MainUI->GetWidgetFromName(TEXT("HoldE")));
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
@@ -86,16 +88,16 @@ void APlumber::Tick(float DeltaTime)
 		Valve = Cast<AValve>(HitResult.GetActor());
 		if (Valve)
 		{
-			CrosshairImage->SetColorAndOpacity(FLinearColor::Red);
+			InteractTxt->SetText(FText::FromString(TEXT("Hold E")));
 		}
 		else
 		{
-			CrosshairImage->SetColorAndOpacity(FLinearColor::White);
+			InteractTxt->SetText(FText::FromString(TEXT("")));
 		}
 	}
 	else
 	{
-		CrosshairImage->SetColorAndOpacity(FLinearColor::White);
+		InteractTxt->SetText(FText::FromString(TEXT("")));
 	}
 }
 
@@ -165,7 +167,7 @@ void APlumber::Interact()
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
-	UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
+	// UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{

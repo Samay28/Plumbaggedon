@@ -19,11 +19,11 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void TimerCallback();
+	// void TimerCallback();
 	void UpdateActorPosition(float DeltaTime);
 
 	float TimerValue;
 
 	struct FTimerHandle TimerHandle;
-
+	class AValve* Valves;
 };
