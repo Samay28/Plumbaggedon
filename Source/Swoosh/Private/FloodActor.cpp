@@ -39,11 +39,11 @@ void AFloodActor::Tick(float DeltaTime)
 
 void AFloodActor::UpdateActorPosition(float DeltaTime)
 {
-	float MovePerSecond = 41.f / 20.f;
+	float MovePerSecond = 170.f / 1200.f;
 
 	FVector NewLocation = GetActorLocation();
 	NewLocation.Z += MovePerSecond * DeltaTime;
 
-	NewLocation.Z = FMath::Clamp(NewLocation.Z, -127.0f, -86.0f);
+	NewLocation.Z = FMath::Clamp(NewLocation.Z, -127.0f, 40.0f);
 	SetActorLocation(NewLocation);
 }

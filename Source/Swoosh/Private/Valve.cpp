@@ -1,6 +1,7 @@
 // AValve.cpp
 #include "Valve.h"
 #include "Engine/StaticMeshActor.h"
+#include "FlickeringLight.h"
 
 int AValve::ValvesClosed = 0;
 
@@ -39,6 +40,7 @@ void AValve::CloseValve()
                 // Deactivate the static mesh actor by setting its visibility to false
                 CurrentWaterFlow->SetActorHiddenInGame(true);
                 CurrentWaterFlow->SetActorEnableCollision(false);
+                RedLight->CloseLight();
             }
         }
     }

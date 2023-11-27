@@ -86,7 +86,7 @@ void APlumber::Tick(float DeltaTime)
 	{
 
 		Valve = Cast<AValve>(HitResult.GetActor());
-		if (Valve)
+		if (Valve && !Valve->IsValveCompleted)
 		{
 			InteractTxt->SetText(FText::FromString(TEXT("Hold E")));
 		}

@@ -33,6 +33,9 @@ public:
 protected:
     virtual void BeginPlay() override;
 
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category=Light)
+    class AFlickeringLight* RedLight;
+
 private:
     UPROPERTY(VisibleAnywhere)
     UStaticMeshComponent *StaticMeshComponent;
