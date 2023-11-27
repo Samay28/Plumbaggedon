@@ -49,7 +49,8 @@ void APlumber::BeginPlay()
 	if (APlayerController *PlayerController = Cast<APlayerController>(GetController()))
 	{
 		UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
-
+		this->DisableInput(PlayerController);
+		GetWorldTimerManager().SetTimer(TimerHandle_EnableInput, this, &APlumber::EnableInputFunction, 5.0f, false);
 		if (Subsystem)
 		{
 			Subsystem->AddMappingContext(PlumberMappingContext, 0);
@@ -80,7 +81,7 @@ void APlumber::Tick(float DeltaTime)
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
 	// UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
-	UTextBlock* InteractTxt = Cast<UTextBlock>(MainUI->GetWidgetFromName(TEXT("HoldE")));
+	UTextBlock *InteractTxt = Cast<UTextBlock>(MainUI->GetWidgetFromName(TEXT("HoldE")));
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
@@ -154,6 +155,18 @@ void APlumber::StopSprint()
 {
 	// BobSpeed = 10.0f;
 	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+}
+
+void APlumber::EnableInputFunction()
+{
+
+	if (APlayerController *PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (PlayerController)
+		{
+			this->EnableInput(PlayerController);
+		}
+	}
 }
 
 void APlumber::Interact()

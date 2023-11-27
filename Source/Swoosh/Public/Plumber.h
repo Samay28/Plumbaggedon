@@ -33,7 +33,7 @@ public:
 	// bool bShouldRotate;
 
 	AValve *Valve;
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -60,7 +60,7 @@ protected:
 	float Xsensi;
 
 	UPROPERTY(EditDefaultsOnly, Category = Widgets)
-    TSubclassOf<class UUserWidget> WidgetClass;
+	TSubclassOf<class UUserWidget> WidgetClass;
 
 	void LookCharacter(const FInputActionValue &Value);
 	void MoveCharacter(const FInputActionValue &Value);
@@ -69,10 +69,11 @@ protected:
 	void StopInteract();
 	void StartInteract();
 	void StopSprint();
+	void EnableInputFunction();
 	FTimerHandle InteractTimerHandle;
+	FTimerHandle TimerHandle_EnableInput;
 
-
-	//ai sensing
+	// ai sensing
 	class UAIPerceptionStimuliSourceComponent *StimulusSource;
 
 	void SetupStimulusSource();
@@ -88,7 +89,7 @@ private:
 	USpotLightComponent *FlashLight;
 
 	UPROPERTY(EditAnywhere)
-	UUserWidget* MainUI;
+	UUserWidget *MainUI;
 
 	// UPROPERTY(EditAnywhere, Category = "Head Bob")
 	// float BobSpeed = 10.0f;
@@ -97,5 +98,4 @@ private:
 	// float BobAmount = 10.0f;
 	// class AValve* ValveActor;
 	class AValve *ValveActor;
-
 };
