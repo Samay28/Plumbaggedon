@@ -16,6 +16,7 @@
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
 #include "Valve.h"
+#include "Spray.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISense_Sight.h"
@@ -39,6 +40,8 @@ APlumber::APlumber()
 	FlashLight->SetupAttachment(ViewCam);
 
 	SetupStimulusSource();
+	CanStartGame = false;
+	count = 0;
 }
 
 // Called when the game starts or when spawned
@@ -55,14 +58,8 @@ void APlumber::BeginPlay()
 		{
 			Subsystem->AddMappingContext(PlumberMappingContext, 0);
 		}
-	}
-	if (WidgetClass)
-	{
+
 		MainUI = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
-		if (MainUI)
-		{
-			MainUI->AddToViewport();
-		}
 	}
 }
 
@@ -80,25 +77,37 @@ void APlumber::Tick(float DeltaTime)
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
-	// UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
-	UTextBlock *InteractTxt = Cast<UTextBlock>(MainUI->GetWidgetFromName(TEXT("HoldE")));
 
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
+	if (MainUI && CanStartGame && count == 0)
 	{
+		UTextBlock *InteractTxt = Cast<UTextBlock>(MainUI->GetWidgetFromName(TEXT("HoldE")));
 
-		Valve = Cast<AValve>(HitResult.GetActor());
-		if (Valve && !Valve->IsValveCompleted)
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 		{
-			InteractTxt->SetText(FText::FromString(TEXT("Hold E")));
+
+			Valve = Cast<AValve>(HitResult.GetActor());
+			if (Valve && !Valve->IsValveCompleted)
+			{
+				InteractTxt->SetText(FText::FromString(TEXT("Hold E")));
+			}
+			else
+			{
+				InteractTxt->SetText(FText::FromString(TEXT("")));
+			}
 		}
 		else
 		{
 			InteractTxt->SetText(FText::FromString(TEXT("")));
 		}
 	}
-	else
+
+	if (WidgetClass)
 	{
-		InteractTxt->SetText(FText::FromString(TEXT("")));
+		if (MainUI && CanStartGame && count == 0)
+		{
+			MainUI->AddToViewport();
+			count++;
+		}
 	}
 }
 
@@ -115,6 +124,8 @@ void APlumber::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 		EIC->BindAction(SprintAction, ETriggerEvent::Completed, this, &APlumber::StopSprint);
 		EIC->BindAction(InteractAction, ETriggerEvent::Triggered, this, &APlumber::StartInteract);
 		EIC->BindAction(InteractAction, ETriggerEvent::Completed, this, &APlumber::StopInteract);
+		EIC->BindAction(FireAction, ETriggerEvent::Triggered, this, &APlumber::Fire);
+		EIC->BindAction(FireAction, ETriggerEvent::Completed, this, &APlumber::StopFire);
 	}
 }
 
@@ -157,6 +168,17 @@ void APlumber::StopSprint()
 	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
 }
 
+void APlumber::Fire()
+{
+	SprayCan->ActivateSpray();
+	UE_LOG(LogTemp, Warning, TEXT("HAPPEN"));
+}
+
+void APlumber::StopFire()
+{
+	SprayCan->DeactivateSpray();
+}
+
 void APlumber::EnableInputFunction()
 {
 
@@ -165,6 +187,7 @@ void APlumber::EnableInputFunction()
 		if (PlayerController)
 		{
 			this->EnableInput(PlayerController);
+			CanStartGame = true;
 		}
 	}
 }

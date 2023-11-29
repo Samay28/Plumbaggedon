@@ -30,9 +30,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
-	// bool bShouldRotate;
 
 	AValve *Valve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool CanStartGame;
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,6 +55,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *InteractAction;
 
+	UPROPERTY(EditAnywhere, Category=Input)
+	UInputAction* FireAction;
+
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Ysensi;
 
@@ -69,6 +74,8 @@ protected:
 	void StopInteract();
 	void StartInteract();
 	void StopSprint();
+	void Fire();
+	void StopFire();
 	void EnableInputFunction();
 	FTimerHandle InteractTimerHandle;
 	FTimerHandle TimerHandle_EnableInput;
@@ -91,11 +98,10 @@ private:
 	UPROPERTY(EditAnywhere)
 	UUserWidget *MainUI;
 
-	// UPROPERTY(EditAnywhere, Category = "Head Bob")
-	// float BobSpeed = 10.0f;
+	int count;
 
-	// UPROPERTY(EditAnywhere, Category = "Head Bob")
-	// float BobAmount = 10.0f;
-	// class AValve* ValveActor;
 	class AValve *ValveActor;
+
+	UPROPERTY(EditAnywhere)
+	class ASpray *SprayCan;
 };
