@@ -82,7 +82,7 @@ protected:
 
 	// ai sensing
 	class UAIPerceptionStimuliSourceComponent *StimulusSource;
-
+	class UChildActorComponent* SprayActor; 
 	void SetupStimulusSource();
 
 private:
@@ -101,7 +101,5 @@ private:
 	int count;
 
 	class AValve *ValveActor;
-
-	UPROPERTY(EditAnywhere)
 	class ASpray *SprayCan;
 };

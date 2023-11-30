@@ -37,4 +37,5 @@ void AFlickeringLight::Tick(float DeltaTime)
 void AFlickeringLight::CloseLight()
 {
 	MaxIntensity = 0;
+	MinIntensity = 0;
 }

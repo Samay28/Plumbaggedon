@@ -7,7 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
-// #include "Components/Image.h"
+#include "Components/ChildActorComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "Blueprint/UserWidget.h"
@@ -31,8 +31,6 @@ APlumber::APlumber()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpingArm"));
 	SpringArm->SetupAttachment(GetRootComponent());
 	SpringArm->TargetArmLength = 0;
-	SpringArm->bEnableCameraRotationLag = true;
-	SpringArm->CameraRotationLagSpeed = 9.0f;
 
 	ViewCam = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	ViewCam->SetupAttachment(SpringArm);
@@ -44,7 +42,11 @@ APlumber::APlumber()
 	CanStartGame = false;
 	count = 0;
 
-
+	// SprayCan = Cast<ASpray>(SprayCan);
+	// // if (SprayCan)
+	// // {
+	// // 	SprayCan->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+	// // }
 }
 
 // Called when the game starts or when spawned
@@ -65,13 +67,25 @@ void APlumber::BeginPlay()
 		MainUI = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
 	}
 
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpray::StaticClass(), FoundActors);
+	// 	TArray<AActor *> FoundActors;
+	// 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpray::StaticClass(), FoundActors);
 
-	// Assuming you want the first found instance, you can change this logic as needed
-	if (FoundActors.Num() > 0)
+	// 	if (FoundActors.Num() > 0)
+	// 	{
+	// 		SprayCan = Cast<ASpray>(FoundActors[0]);
+	// 		SprayCan->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+
+	// 	}
+	// }
+	// AActor *MyChildActor = SprayActor->GetChildActor();
+	// SprayCan = Cast<ASpray>(MyChildActor);
+	// Assuming your SprayActor has a root component
+	TArray<AActor *> AttachedActors;
+	this->GetAttachedActors(AttachedActors);
+
+	for (AActor *AttachedActor : AttachedActors)
 	{
-		SprayCan = Cast<ASpray>(FoundActors[0]);
+		SprayCan = Cast<ASpray>(AttachedActor);
 	}
 }
 
