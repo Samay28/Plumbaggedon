@@ -55,8 +55,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *InteractAction;
 
-	UPROPERTY(EditAnywhere, Category=Input)
-	UInputAction* FireAction;
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction *FireAction;
 
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Ysensi;
@@ -65,7 +65,7 @@ protected:
 	float Xsensi;
 
 	UPROPERTY(EditDefaultsOnly, Category = Widgets)
-	TSubclassOf<class UUserWidget> WidgetClass;
+	TArray<TSubclassOf<UUserWidget>> WidgetClasses;
 
 	void LookCharacter(const FInputActionValue &Value);
 	void MoveCharacter(const FInputActionValue &Value);
@@ -82,7 +82,7 @@ protected:
 
 	// ai sensing
 	class UAIPerceptionStimuliSourceComponent *StimulusSource;
-	class UChildActorComponent* SprayActor; 
+	class UChildActorComponent *SprayActor;
 	void SetupStimulusSource();
 
 private:
@@ -97,6 +97,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UUserWidget *MainUI;
+
+	UPROPERTY(EditAnywhere)
+	UUserWidget *MainMenuUI;
 
 	int count;
 

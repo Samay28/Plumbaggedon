@@ -64,7 +64,12 @@ void APlumber::BeginPlay()
 			Subsystem->AddMappingContext(PlumberMappingContext, 0);
 		}
 
-		MainUI = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
+		MainUI = CreateWidget<UUserWidget>(GetWorld(), WidgetClasses[0]);
+		MainMenuUI = CreateWidget<UUserWidget>(GetWorld(), WidgetClasses[1]);
+		if (MainMenuUI)
+		{
+			MainMenuUI->AddToViewport();
+		}
 	}
 
 	// 	TArray<AActor *> FoundActors;
@@ -104,7 +109,7 @@ void APlumber::Tick(float DeltaTime)
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
 
-	if (MainUI && CanStartGame && count == 0)
+	if (MainUI && CanStartGame && count == 1)
 	{
 		UTextBlock *InteractTxt = Cast<UTextBlock>(MainUI->GetWidgetFromName(TEXT("HoldE")));
 
@@ -127,10 +132,11 @@ void APlumber::Tick(float DeltaTime)
 		}
 	}
 
-	if (WidgetClass)
+	if (WidgetClasses[0])
 	{
 		if (MainUI && CanStartGame && count == 0)
 		{
+			MainMenuUI->RemoveFromParent();
 			MainUI->AddToViewport();
 			count++;
 		}

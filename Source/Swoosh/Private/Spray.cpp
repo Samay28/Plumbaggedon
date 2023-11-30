@@ -19,7 +19,6 @@ ASpray::ASpray()
 }
 void ASpray::ActivateSpray()
 {	
-	UE_LOG(LogTemp,Warning,TEXT("halp"));
 	if (SpraySmoke)
 	{
 		SpraySmoke->Activate();
