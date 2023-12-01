@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool CanStartGame;
 
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	// bool StartButtonPressed;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -85,6 +88,16 @@ protected:
 	class UChildActorComponent *SprayActor;
 	void SetupStimulusSource();
 
+	//buttons
+	UFUNCTION(BlueprintCallable)
+	void StartGameFunctions();
+
+	// UPROPERTY(EditAnywhere)
+	// class ULevelSequencePlayer* StartScene;
+
+	// UPROPERTY(BlueprintReadWrite)
+	// bool Can
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent *ViewCam;
@@ -100,6 +113,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UUserWidget *MainMenuUI;
+
 
 	int count;
 

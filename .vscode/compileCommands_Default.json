@@ -8,6 +8,30 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Private\\BTTask_ChasePlayer.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Private\\BTTask_FindPlayerLocation.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Private\\BTTask_FindRandomLocation.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Private\\Enemy_AIController.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
@@ -16,7 +40,31 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Private\\FlickeringLight.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Private\\FloodActor.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Private\\Plumber.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Private\\Spray.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
@@ -40,6 +88,30 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Public\\BTTask_ChasePlayer.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Public\\BTTask_FindPlayerLocation.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Public\\BTTask_FindRandomLocation.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Public\\Enemy_AIController.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
@@ -48,7 +120,31 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Public\\FlickeringLight.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Public\\FloodActor.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Public\\Plumber.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\Source\\Swoosh\\Public\\Spray.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\VC\\Tools\\MSVC\\14.38.33129\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\Asus\\Documents\\GitHub\\Plumbaggedon\\.vscode\\compileCommands_Default\\Swoosh.1.rsp"

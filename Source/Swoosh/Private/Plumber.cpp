@@ -41,12 +41,6 @@ APlumber::APlumber()
 	SetupStimulusSource();
 	CanStartGame = false;
 	count = 0;
-
-	// SprayCan = Cast<ASpray>(SprayCan);
-	// // if (SprayCan)
-	// // {
-	// // 	SprayCan->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
-	// // }
 }
 
 // Called when the game starts or when spawned
@@ -58,7 +52,6 @@ void APlumber::BeginPlay()
 	{
 		UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
 		this->DisableInput(PlayerController);
-		GetWorldTimerManager().SetTimer(TimerHandle_EnableInput, this, &APlumber::EnableInputFunction, 5.0f, false);
 		if (Subsystem)
 		{
 			Subsystem->AddMappingContext(PlumberMappingContext, 0);
@@ -71,6 +64,10 @@ void APlumber::BeginPlay()
 			MainMenuUI->AddToViewport();
 		}
 	}
+	// if (StartScene)
+	// {
+	// 	StartScene->Pause();
+	// }
 
 	// 	TArray<AActor *> FoundActors;
 	// 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpray::StaticClass(), FoundActors);
@@ -136,7 +133,6 @@ void APlumber::Tick(float DeltaTime)
 	{
 		if (MainUI && CanStartGame && count == 0)
 		{
-			MainMenuUI->RemoveFromParent();
 			MainUI->AddToViewport();
 			count++;
 		}
@@ -340,4 +336,14 @@ void APlumber::SetupStimulusSource()
 		StimulusSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
 		StimulusSource->RegisterWithPerceptionSystem();
 	}
+}
+
+void APlumber::StartGameFunctions()
+{
+	// if (StartScene)
+	// {
+	// 	StartScene->Play();
+	// }
+	MainMenuUI->RemoveFromParent();
+	GetWorldTimerManager().SetTimer(TimerHandle_EnableInput, this, &APlumber::EnableInputFunction, 5.0f, false);
 }
