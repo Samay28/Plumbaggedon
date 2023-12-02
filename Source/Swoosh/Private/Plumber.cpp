@@ -19,6 +19,7 @@
 #include "Spray.h"
 #include "LevelSequenceActor.h"
 #include "LevelSequencePlayer.h"
+#include "EngineUtils.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISense_Sight.h"
@@ -43,6 +44,8 @@ APlumber::APlumber()
 	SetupStimulusSource();
 	CanStartGame = false;
 	count = 0;
+
+		// Iterate through all actors in the world to find the LevelSequenceActor
 }
 
 // Called when the game starts or when spawned
@@ -75,6 +78,7 @@ void APlumber::BeginPlay()
 		SprayCan = Cast<ASpray>(AttachedActor);
 	}
 
+
 	if (StartScene)
 	{
 		ULevelSequence *LevelSequence = StartScene->GetSequence();
@@ -83,7 +87,6 @@ void APlumber::BeginPlay()
 			// Create a new LevelSequencePlayer
 			FMovieSceneSequencePlaybackSettings PlaybackSettings;
 			PlaybackSettings.bAutoPlay = true;
-
 			// Create a new LevelSequencePlayer
 			SequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), LevelSequence, PlaybackSettings, StartScene);
 			if (SequencePlayer)
@@ -94,7 +97,7 @@ void APlumber::BeginPlay()
 	}
 	else
 	{
-		// Handle the case where StartScene is not valid
+		UE_LOG(LogTemp, Warning, TEXT("NHI MILA"));
 	}
 }
 
