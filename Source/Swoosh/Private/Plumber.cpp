@@ -17,6 +17,8 @@
 #include "Sound/SoundCue.h"
 #include "Valve.h"
 #include "Spray.h"
+#include "LevelSequenceActor.h"
+#include "LevelSequencePlayer.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISense_Sight.h"
@@ -64,30 +66,35 @@ void APlumber::BeginPlay()
 			MainMenuUI->AddToViewport();
 		}
 	}
-	// if (StartScene)
-	// {
-	// 	StartScene->Pause();
-	// }
 
-	// 	TArray<AActor *> FoundActors;
-	// 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpray::StaticClass(), FoundActors);
-
-	// 	if (FoundActors.Num() > 0)
-	// 	{
-	// 		SprayCan = Cast<ASpray>(FoundActors[0]);
-	// 		SprayCan->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
-
-	// 	}
-	// }
-	// AActor *MyChildActor = SprayActor->GetChildActor();
-	// SprayCan = Cast<ASpray>(MyChildActor);
-	// Assuming your SprayActor has a root component
 	TArray<AActor *> AttachedActors;
 	this->GetAttachedActors(AttachedActors);
 
 	for (AActor *AttachedActor : AttachedActors)
 	{
 		SprayCan = Cast<ASpray>(AttachedActor);
+	}
+
+	if (StartScene)
+	{
+		ULevelSequence *LevelSequence = StartScene->GetSequence();
+		if (LevelSequence)
+		{
+			// Create a new LevelSequencePlayer
+			FMovieSceneSequencePlaybackSettings PlaybackSettings;
+			PlaybackSettings.bAutoPlay = true;
+
+			// Create a new LevelSequencePlayer
+			SequencePlayer = ULevelSequencePlayer::CreateLevelSequencePlayer(GetWorld(), LevelSequence, PlaybackSettings, StartScene);
+			if (SequencePlayer)
+			{
+				SequencePlayer->Pause();
+			}
+		}
+	}
+	else
+	{
+		// Handle the case where StartScene is not valid
 	}
 }
 
@@ -340,10 +347,10 @@ void APlumber::SetupStimulusSource()
 
 void APlumber::StartGameFunctions()
 {
-	// if (StartScene)
-	// {
-	// 	StartScene->Play();
-	// }
+	if (SequencePlayer)
+	{
+		SequencePlayer->Play();
+	}
 	MainMenuUI->RemoveFromParent();
 	GetWorldTimerManager().SetTimer(TimerHandle_EnableInput, this, &APlumber::EnableInputFunction, 5.0f, false);
 }

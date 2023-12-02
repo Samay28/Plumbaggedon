@@ -92,8 +92,10 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void StartGameFunctions();
 
-	// UPROPERTY(EditAnywhere)
-	// class ULevelSequencePlayer* StartScene;
+	UPROPERTY(EditAnywhere)
+	class ALevelSequenceActor* StartScene;
+
+	class ULevelSequencePlayer *SequencePlayer;
 
 	// UPROPERTY(BlueprintReadWrite)
 	// bool Can
