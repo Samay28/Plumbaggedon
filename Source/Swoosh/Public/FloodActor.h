@@ -26,4 +26,7 @@ protected:
 
 	struct FTimerHandle TimerHandle;
 	class AValve* Valves;
+
+	UPROPERTY(EditAnywhere)
+	class APlumber* Player;
 };

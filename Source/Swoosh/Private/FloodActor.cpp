@@ -1,6 +1,7 @@
 #include "FloodActor.h"
 #include "TimerManager.h"
 #include "Valve.h"
+#include "Plumber.h"
 #include "Engine/World.h"
 
 // Sets default values
@@ -25,7 +26,7 @@ void AFloodActor::Tick(float DeltaTime)
 
 	// UE_LOG(LogTemp, Warning, TEXT("Current Time: %f"), GetWorldTimerManager().GetTimerElapsed(TimerHandle));
 
-	if (Valves->ValvesClosed < 5)
+	if (Valves->ValvesClosed < 5 && Player->CanStartGame)
 	{
 		UpdateActorPosition(DeltaTime);
 	}
