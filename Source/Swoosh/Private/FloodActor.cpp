@@ -3,6 +3,8 @@
 #include "Valve.h"
 #include "Plumber.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
+#include "Engine/StaticMeshActor.h"
 
 // Sets default values
 AFloodActor::AFloodActor()
@@ -16,7 +18,9 @@ void AFloodActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-// 	
+	const FName ActorTag = FName("WaterFlood");
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), ActorTag, WaterMeshes);
+	//
 }
 
 // Called every frame
@@ -42,9 +46,24 @@ void AFloodActor::UpdateActorPosition(float DeltaTime)
 {
 	float MovePerSecond = 170.f / 1200.f;
 
-	FVector NewLocation = GetActorLocation();
-	NewLocation.Z += MovePerSecond * DeltaTime;
+	// FVector NewLocation = GetActorLocation();
+	// NewLocation.Z += MovePerSecond * DeltaTime;
 
-	NewLocation.Z = FMath::Clamp(NewLocation.Z, -127.0f, 40.0f);
-	SetActorLocation(NewLocation);
+	// NewLocation.Z = FMath::Clamp(NewLocation.Z, -127.0f, 40.0f);
+	// SetActorLocation(NewLocation);
+
+	for (AActor*  StaticMesh : WaterMeshes)
+	{	
+		AStaticMeshActor* StaticMeshActor = Cast<AStaticMeshActor>(StaticMesh);
+		if (StaticMeshActor) // Check if the current static mesh actor is valid
+		{
+			FVector NewLocation = StaticMesh->GetActorLocation();
+			NewLocation.Z += MovePerSecond * DeltaTime;
+
+			NewLocation.Z = FMath::Clamp(NewLocation.Z, -127.0f, 40.0f);
+
+			StaticMesh->SetActorLocation(NewLocation);
+			UE_LOG(LogTemp,Warning,TEXT("chl gya"));
+		}
+	}
 }

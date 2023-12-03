@@ -29,4 +29,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	class APlumber* Player;
+
+	UPROPERTY(EditAnywhere)
+    TArray<AActor*> WaterMeshes;
 };
