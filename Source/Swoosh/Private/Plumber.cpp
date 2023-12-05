@@ -13,9 +13,6 @@
 #include "Components/CapsuleComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/Character.h"
-#include "GameFramework/Controller.h"
-#include "GameFramework/Actor.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
@@ -28,6 +25,8 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISense_Sight.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerController.h"
+#include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Enemy_AIController.h"
 
@@ -100,7 +99,9 @@ void APlumber::BeginPlay()
 			}
 		}
 	}
-
+	else
+	{
+	}
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlumber::OnCollisionBegin);
 }
 
@@ -301,22 +302,27 @@ void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Oth
 		{
 			// Disable input for the player controller
 			DisableInput(PlayerController);
-			bUseControllerRotationRoll = false;
+			ViewCam->bUsePawnControlRotation = false;
+
+			// Disable automatic control rotation during the manual rotation
 		}
 
-		// Rotate the camera slowly towards the enemy
+		// Rotate the SpringArm towards the enemy over 2 seconds
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
-		if (EnemyController)
+		if (EnemyController && ViewCam)
 		{
+
 			// Calculate rotation towards the enemy
-			UE_LOG(LogTemp, Warning, TEXT("NHI MILA"));
-			FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(SpringArm->GetComponentLocation(), EnemyController->GetPawn()->GetActorLocation());
+			FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(ViewCam->GetComponentLocation(), EnemyController->GetPawn()->GetActorLocation());
 
 			// Interpolate the rotation for smooth movement over 2 seconds
-			FRotator NewRotation = FMath::RInterpTo(SpringArm->GetComponentRotation(), TargetRotation, GetWorld()->GetDeltaSeconds(), 2.0f);
+			FRotator NewRotation = FMath::RInterpTo(ViewCam->GetComponentRotation(), TargetRotation, GetWorld()->GetDeltaSeconds(), 2.0f);
 
-			// Set the new rotation for the SpringArm
-			SpringArm->SetWorldRotation(NewRotation);
+			// Set the new rotation for the camera (ViewCam)
+			ViewCam->SetWorldRotation(NewRotation);
+
+			// Optionally, you can also adjust the rotation of the pawn's root component
+			// GetRootComponent()->SetWorldRotation(NewRotation);
 		}
 	}
 }
