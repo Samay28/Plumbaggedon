@@ -11,6 +11,7 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/MeshComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
@@ -28,6 +29,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "TimerManager.h"
 #include "Enemy_AIController.h"
 
 // Sets default values
@@ -281,48 +283,54 @@ void APlumber::EnableInputFunction()
 
 void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
-	AController *OtherController = nullptr;
-
-	// Try to get the controller from the other actor
-	APawn *OtherPawn = Cast<APawn>(OtherActor);
-	if (OtherPawn)
-	{
-		OtherController = OtherPawn->GetController();
-	}
-	else
-	{
-		// If it's not a pawn, try to get the controller directly
-		OtherController = Cast<AController>(OtherActor);
-	}
-
-	if (OtherController && OtherController->IsA(AEnemy_AIController::StaticClass()))
+	// Check if the other actor has the "Enemy" tag
+	if (OtherActor && OtherActor->ActorHasTag("Enemy"))
 	{
 		APlayerController *PlayerController = Cast<APlayerController>(GetController());
-		if (PlayerController)
+		AController *OtherController = nullptr;
+
+		// Try to get the controller from the other actor
+		APawn *OtherPawn = Cast<APawn>(OtherActor);
+		if (OtherPawn)
+		{
+			OtherController = OtherPawn->GetController();
+		}
+		else
+		{
+			// If it's not a pawn, try to get the controller directly
+			OtherController = Cast<AController>(OtherActor);
+		}
+
+		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
+		if (PlayerController && ViewCam && EnemyController)
 		{
 			// Disable input for the player controller
 			DisableInput(PlayerController);
 			ViewCam->bUsePawnControlRotation = false;
 
-			// Disable automatic control rotation during the manual rotation
-		}
+			APawn *EnemyPawn = EnemyController->GetPawn();
+			if (EnemyPawn)
+			{
+				// Assuming MeshComponent is the name of the mesh component in your enemy pawn
+				UStaticMeshComponent *EnemyMeshComponent = Cast<UStaticMeshComponent>(EnemyPawn->GetComponentByClass(UStaticMeshComponent::StaticClass()));
 
-		// Rotate the SpringArm towards the enemy over 2 seconds
-		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
-		if (EnemyController && ViewCam)
-		{
+				if (EnemyMeshComponent && FlashLight)
+				{
+					// Log for debugging purposes
+					UE_LOG(LogTemp, Warning, TEXT("Rotation calculation successful"));
 
-			// Calculate rotation towards the enemy
-			FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(ViewCam->GetComponentLocation(), EnemyController->GetPawn()->GetActorLocation());
+					FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(ViewCam->GetComponentLocation(), EnemyMeshComponent->GetComponentLocation());
 
-			// Interpolate the rotation for smooth movement over 2 seconds
-			FRotator NewRotation = FMath::RInterpTo(ViewCam->GetComponentRotation(), TargetRotation, GetWorld()->GetDeltaSeconds(), 2.0f);
+					// Interpolate the rotation for smooth movement over 2 seconds
+					FRotator NewRotation = FMath::RInterpTo(ViewCam->GetComponentRotation(), TargetRotation, GetWorld()->GetDeltaSeconds(), 2.f);
 
-			// Set the new rotation for the camera (ViewCam)
-			ViewCam->SetWorldRotation(NewRotation);
+					// Set the new rotation for the camera (ViewCam)
+					ViewCam->SetWorldRotation(TargetRotation);
 
-			// Optionally, you can also adjust the rotation of the pawn's root component
-			// GetRootComponent()->SetWorldRotation(NewRotation);
+					// Adjust other components or properties as needed
+					FlashLight->SetVisibility(false);
+				}
+			}
 		}
 	}
 }

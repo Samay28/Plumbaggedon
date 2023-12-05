@@ -70,6 +70,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Widgets)
 	TArray<TSubclassOf<UUserWidget>> WidgetClasses;
 
+	
+
+
 	void LookCharacter(const FInputActionValue &Value);
 	void MoveCharacter(const FInputActionValue &Value);
 	void Sprint();
@@ -82,7 +85,11 @@ protected:
 	void EnableInputFunction();
 
 	UFUNCTION()
-	void OnCollisionBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+
+	UPROPERTY(EditAnywhere)
+	
+
 	FTimerHandle InteractTimerHandle;
 	FTimerHandle TimerHandle_EnableInput;
 
@@ -91,13 +98,12 @@ protected:
 	class UChildActorComponent *SprayActor;
 	void SetupStimulusSource();
 
-	//buttons
+	// buttons
 	UFUNCTION(BlueprintCallable)
 	void StartGameFunctions();
 
 	UPROPERTY(EditAnywhere)
-	class ALevelSequenceActor* StartScene;
-
+	class ALevelSequenceActor *StartScene;
 	class ULevelSequencePlayer *SequencePlayer;
 
 	// UPROPERTY(BlueprintReadWrite)
@@ -118,7 +124,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UUserWidget *MainMenuUI;
-
 
 	int count;
 
