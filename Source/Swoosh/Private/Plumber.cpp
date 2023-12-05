@@ -10,8 +10,12 @@
 #include "Components/ChildActorComponent.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/Controller.h"
+#include "GameFramework/Actor.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Components/AudioComponent.h"
 #include "Sound/SoundCue.h"
@@ -24,6 +28,8 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISense_Sight.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Enemy_AIController.h"
 
 // Sets default values
 APlumber::APlumber()
@@ -45,7 +51,7 @@ APlumber::APlumber()
 	CanStartGame = false;
 	count = 0;
 
-		// Iterate through all actors in the world to find the LevelSequenceActor
+	// Iterate through all actors in the world to find the LevelSequenceActor
 }
 
 // Called when the game starts or when spawned
@@ -78,7 +84,6 @@ void APlumber::BeginPlay()
 		SprayCan = Cast<ASpray>(AttachedActor);
 	}
 
-
 	if (StartScene)
 	{
 		ULevelSequence *LevelSequence = StartScene->GetSequence();
@@ -95,10 +100,8 @@ void APlumber::BeginPlay()
 			}
 		}
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("NHI MILA"));
-	}
+
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlumber::OnCollisionBegin);
 }
 
 // Called every frame
@@ -271,6 +274,49 @@ void APlumber::EnableInputFunction()
 		{
 			this->EnableInput(PlayerController);
 			CanStartGame = true;
+		}
+	}
+}
+
+void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
+{
+	AController *OtherController = nullptr;
+
+	// Try to get the controller from the other actor
+	APawn *OtherPawn = Cast<APawn>(OtherActor);
+	if (OtherPawn)
+	{
+		OtherController = OtherPawn->GetController();
+	}
+	else
+	{
+		// If it's not a pawn, try to get the controller directly
+		OtherController = Cast<AController>(OtherActor);
+	}
+
+	if (OtherController && OtherController->IsA(AEnemy_AIController::StaticClass()))
+	{
+		APlayerController *PlayerController = Cast<APlayerController>(GetController());
+		if (PlayerController)
+		{
+			// Disable input for the player controller
+			DisableInput(PlayerController);
+			bUseControllerRotationRoll = false;
+		}
+
+		// Rotate the camera slowly towards the enemy
+		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
+		if (EnemyController)
+		{
+			// Calculate rotation towards the enemy
+			UE_LOG(LogTemp, Warning, TEXT("NHI MILA"));
+			FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(SpringArm->GetComponentLocation(), EnemyController->GetPawn()->GetActorLocation());
+
+			// Interpolate the rotation for smooth movement over 2 seconds
+			FRotator NewRotation = FMath::RInterpTo(SpringArm->GetComponentRotation(), TargetRotation, GetWorld()->GetDeltaSeconds(), 2.0f);
+
+			// Set the new rotation for the SpringArm
+			SpringArm->SetWorldRotation(NewRotation);
 		}
 	}
 }

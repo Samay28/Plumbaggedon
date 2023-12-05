@@ -80,6 +80,10 @@ protected:
 	void Fire();
 	void StopFire();
 	void EnableInputFunction();
+
+	UFUNCTION()
+	void OnCollisionBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
 	FTimerHandle InteractTimerHandle;
 	FTimerHandle TimerHandle_EnableInput;
 
