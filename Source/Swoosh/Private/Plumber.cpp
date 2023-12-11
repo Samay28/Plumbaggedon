@@ -48,7 +48,10 @@ APlumber::APlumber()
 	FlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("FlashLight"));
 	FlashLight->SetupAttachment(ViewCam);
 
+
+
 	SetupStimulusSource();
+
 	CanStartGame = false;
 	count = 0;
 
@@ -168,7 +171,7 @@ void APlumber::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 		EIC->BindAction(SprintAction, ETriggerEvent::Completed, this, &APlumber::StopSprint);
 		EIC->BindAction(InteractAction, ETriggerEvent::Triggered, this, &APlumber::StartInteract);
 		EIC->BindAction(InteractAction, ETriggerEvent::Completed, this, &APlumber::StopInteract);
-		EIC->BindAction(FireAction, ETriggerEvent::Started, this, &APlumber::Fire);
+		EIC->BindAction(FireAction, ETriggerEvent::Triggered, this, &APlumber::Fire);
 		EIC->BindAction(FireAction, ETriggerEvent::Completed, this, &APlumber::StopFire);
 	}
 }
@@ -223,20 +226,8 @@ void APlumber::Fire()
 		// Check if the cast was successful
 		if (Spray)
 		{
-			// Call the ActivateSpray function on the casted ASpray instance
 			Spray->ActivateSpray();
-			UE_LOG(LogTemp, Warning, TEXT("Spray activated"));
 		}
-		else
-		{
-			// Handle the case where the cast failed
-			UE_LOG(LogTemp, Warning, TEXT("Failed to cast SprayCan to ASpray"));
-		}
-	}
-	else
-	{
-		// Handle the case where SprayCan is nullptr
-		UE_LOG(LogTemp, Warning, TEXT("SprayCan is nullptr"));
 	}
 }
 
@@ -251,20 +242,8 @@ void APlumber::StopFire()
 		// Check if the cast was successful
 		if (Spray)
 		{
-			// Call the DeactivateSpray function on the casted ASpray instance
 			Spray->DeactivateSpray();
-			UE_LOG(LogTemp, Warning, TEXT("Spray deactivated"));
 		}
-		else
-		{
-			// Handle the case where the cast failed
-			UE_LOG(LogTemp, Warning, TEXT("Failed to cast SprayCan to ASpray"));
-		}
-	}
-	else
-	{
-		// Handle the case where SprayCan is nullptr
-		UE_LOG(LogTemp, Warning, TEXT("SprayCan is nullptr"));
 	}
 }
 

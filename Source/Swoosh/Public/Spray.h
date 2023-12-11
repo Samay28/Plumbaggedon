@@ -27,5 +27,11 @@ protected:
 	class UStaticMeshComponent *MeshComponent;
 
 	UPROPERTY(VisibleAnywhere)
-	class UParticleSystemComponent *SpraySmoke;
+    class UParticleSystemComponent* SpraySmoke;
+
+	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* SprayHitBox;
+
+	UFUNCTION()
+	void OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
 };
