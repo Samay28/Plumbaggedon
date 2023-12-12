@@ -17,6 +17,8 @@ class SWOOSH_API AEnemy_AIController : public AAIController
 public:
 	explicit AEnemy_AIController(FObjectInitializer const &ObjectInitializer);
 
+	void Death(); 
+
 protected:
 	virtual void OnPossess(APawn *InPawn) override;
 	UAISenseConfig_Sight *SightConfig;

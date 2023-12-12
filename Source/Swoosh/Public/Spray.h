@@ -16,6 +16,8 @@ public:
 	ASpray();
 	void ActivateSpray();
 	void DeactivateSpray();
+	
+	bool IsFiring;
 
 protected:
 	// Called when the game starts or when spawned

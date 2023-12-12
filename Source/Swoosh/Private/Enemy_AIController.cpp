@@ -6,7 +6,10 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
-
+#include "Animation/AnimationAsset.h"
+#include "Animation/AnimInstance.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEnemy_AIController::AEnemy_AIController(FObjectInitializer const &ObjectInitializer)
@@ -15,6 +18,20 @@ AEnemy_AIController::AEnemy_AIController(FObjectInitializer const &ObjectInitial
     // UCapsuleComponent *CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
     // CapsuleComponent->OnComponentHit.AddDynamic(this, &AEnemyController::OnCapsuleOverlap);
     // RootComponent = CapsuleComponent;
+}
+void AEnemy_AIController::Death()
+{
+    USkeletalMeshComponent *SkeletalMeshComp = FindComponentByClass<USkeletalMeshComponent>(); // Use FindComponentByClass to find the skeletal mesh component
+    if (SkeletalMeshComp)
+    {
+        SkeletalMeshComp->SetAnimInstanceClass(nullptr);
+    }
+    this->GetBlackboardComponent()->SetValueAsBool("IsDead", true);
+    UCapsuleComponent *Collider = this->FindComponentByClass<UCapsuleComponent>();
+    if (Collider)
+    {
+        Collider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    }
 }
 void AEnemy_AIController::OnPossess(APawn *InPawn)
 {

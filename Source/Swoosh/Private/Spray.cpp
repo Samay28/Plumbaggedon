@@ -14,13 +14,15 @@ ASpray::ASpray()
 
 	SprayHitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBox"));
 	SprayHitBox->SetupAttachment(MeshComponent);
-	// SprayHitBox->SetRelativeLocation(FVector(0, 0, 0));
+
+	IsFiring = false;
 }
 
 void ASpray::ActivateSpray()
 {
 	if (SpraySmoke)
 	{
+		IsFiring = true;
 		SpraySmoke->Activate();
 	}
 }
@@ -29,6 +31,7 @@ void ASpray::DeactivateSpray()
 {
 	if (SpraySmoke)
 	{
+		IsFiring = false;
 		SpraySmoke->Deactivate();
 	}
 }
@@ -82,6 +85,7 @@ void ASpray::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Other
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
 		if (EnemyController)
 		{
+			EnemyController->Death();
 			UE_LOG(LogTemp, Warning, TEXT("cHAL GYAA"));
 		}
 	}
