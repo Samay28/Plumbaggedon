@@ -17,7 +17,8 @@ class SWOOSH_API AEnemy_AIController : public AAIController
 public:
 	explicit AEnemy_AIController(FObjectInitializer const &ObjectInitializer);
 
-	void Death(); 
+	void Death();
+	bool isDead;
 
 protected:
 	virtual void OnPossess(APawn *InPawn) override;
@@ -27,4 +28,6 @@ protected:
 
 	UFUNCTION()
 	void OnTargetDetected(AActor *Actor, FAIStimulus const Stimulus);
+
+	void DestroyActor();
 };

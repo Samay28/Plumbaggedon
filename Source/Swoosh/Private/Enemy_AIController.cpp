@@ -8,30 +8,26 @@
 #include "Perception/AISenseConfig_Sight.h"
 #include "Animation/AnimationAsset.h"
 #include "Animation/AnimInstance.h"
-#include "Components/CapsuleComponent.h"
-#include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "TimerManager.h"
 
 AEnemy_AIController::AEnemy_AIController(FObjectInitializer const &ObjectInitializer)
 {
     SetUpPerceptionSystem();
-    // UCapsuleComponent *CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
-    // CapsuleComponent->OnComponentHit.AddDynamic(this, &AEnemyController::OnCapsuleOverlap);
-    // RootComponent = CapsuleComponent;
+    isDead = false;
 }
 void AEnemy_AIController::Death()
 {
-    USkeletalMeshComponent *SkeletalMeshComp = FindComponentByClass<USkeletalMeshComponent>(); // Use FindComponentByClass to find the skeletal mesh component
-    if (SkeletalMeshComp)
+    APawn *E = GetPawn();
+    if (AAIEnemy *const die = Cast<AAIEnemy>(E))
     {
-        SkeletalMeshComp->SetAnimInstanceClass(nullptr);
+        die->UpdateAnimInstanceForDeath();
     }
+    isDead = true;
     this->GetBlackboardComponent()->SetValueAsBool("IsDead", true);
-    UCapsuleComponent *Collider = this->FindComponentByClass<UCapsuleComponent>();
-    if (Collider)
-    {
-        Collider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    }
+
+    FTimerHandle TimerHandle;
+    GetWorldTimerManager().SetTimer(TimerHandle, this, &AEnemy_AIController::DestroyActor, 1.2f, false);
 }
 void AEnemy_AIController::OnPossess(APawn *InPawn)
 {
@@ -99,5 +95,14 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
                 }
             }
         }
+    }
+}
+
+void AEnemy_AIController::DestroyActor()
+{
+    APawn *E = GetPawn();
+    if (AAIEnemy *die = Cast<AAIEnemy>(E))
+    {
+        die->Destroy();
     }
 }

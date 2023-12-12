@@ -29,10 +29,18 @@ public:
 					  UPrimitiveComponent *OtherComp, FVector NormalImpulse,
 					  const FHitResult &Hit);
 
+	void UpdateAnimInstanceForDeath();
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI)
 	UBehaviorTree *Tree;
+
+	UPROPERTY(EditAnywhere, Category = Death)
+	class USkeletalMeshComponent *SkeletalMeshComp ;
+
+
 };

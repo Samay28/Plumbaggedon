@@ -3,6 +3,7 @@
 #include "AIEnemy.h"
 #include "Plumber.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 // Sets default values
 AAIEnemy::AAIEnemy()
 {
@@ -25,6 +26,11 @@ void AAIEnemy::BeginPlay()
 		// Log an error if the capsule component is not found
 		UE_LOG(LogTemp, Error, TEXT("Capsule component not found in EnemyController"));
 	}
+	SkeletalMeshComp = FindComponentByClass<USkeletalMeshComponent>();
+	if (SkeletalMeshComp)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("gm"));
+	}
 }
 void AAIEnemy::OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActor,
 							UPrimitiveComponent *OtherComp, FVector NormalImpulse,
@@ -37,6 +43,12 @@ void AAIEnemy::OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActo
 		UE_LOG(LogTemp, Warning, TEXT("Capsule hit an actor of class Plumber"));
 	}
 }
+
+void AAIEnemy::UpdateAnimInstanceForDeath()
+{
+	SkeletalMeshComp->SetAnimInstanceClass(nullptr);
+}
+
 
 // Called every frame
 void AAIEnemy::Tick(float DeltaTime)

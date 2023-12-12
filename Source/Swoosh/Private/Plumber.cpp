@@ -281,7 +281,7 @@ void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Oth
 		}
 
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
-		if (PlayerController && ViewCam && EnemyController)
+		if (PlayerController && ViewCam && EnemyController && !EnemyController->isDead)
 		{
 			// Disable input for the player controller
 			DisableInput(PlayerController);
