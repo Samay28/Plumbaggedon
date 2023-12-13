@@ -51,8 +51,10 @@ APlumber::APlumber()
 	SetupStimulusSource();
 
 	CanStartGame = false;
+	IsPlayerDead = false;
 	count = 0;
 
+	
 	// Iterate through all actors in the world to find the LevelSequenceActor
 }
 
@@ -76,6 +78,7 @@ void APlumber::BeginPlay()
 		{
 			MainMenuUI->AddToViewport();
 		}
+		CheckpointLocation = this->GetActorLocation();
 	}
 
 	TArray<AActor *> AttachedActors;
@@ -258,6 +261,11 @@ void APlumber::EnableInputFunction()
 	}
 }
 
+void APlumber::RespawnPlayer()
+{
+	this->GetActorLocation() = CheckpointLocation;
+}
+
 void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
 	// Check if the other actor has the "Enemy" tag
@@ -281,7 +289,7 @@ void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Oth
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
 		if (PlayerController && ViewCam && EnemyController && !EnemyController->isDead)
 		{
-			// Disable input for the player controller
+			IsPlayerDead = true;
 			DisableInput(PlayerController);
 			ViewCam->bUsePawnControlRotation = false;
 
@@ -306,6 +314,8 @@ void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Oth
 
 					// Adjust other components or properties as needed
 					FlashLight->SetVisibility(false);
+
+					GetWorld()->GetTimerManager().SetTimer(TimerHandle_Respawn, this, &APlumber::RespawnPlayer, 3, false);
 				}
 			}
 		}
@@ -350,6 +360,7 @@ void APlumber::Interact()
 				StopInteract();
 				Valve->IsValveCompleted = true;
 				UE_LOG(LogTemp, Warning, TEXT("Closing Stopped. Total rotation exceeded 720 degrees."));
+				CheckpointLocation = this->GetActorLocation();
 			}
 			else
 			{

@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool CanStartGame;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool IsPlayerDead;
+
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	// bool StartButtonPressed;
 
@@ -70,7 +73,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Widgets)
 	TArray<TSubclassOf<UUserWidget>> WidgetClasses;
 
-	
+	FVector CheckpointLocation;
 
 
 	void LookCharacter(const FInputActionValue &Value);
@@ -83,6 +86,7 @@ protected:
 	void Fire();
 	void StopFire();
 	void EnableInputFunction();
+	void RespawnPlayer();
 
 	UFUNCTION()
 	void OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
@@ -91,6 +95,7 @@ protected:
 
 	FTimerHandle InteractTimerHandle;
 	FTimerHandle TimerHandle_EnableInput;
+	FTimerHandle TimerHandle_Respawn;
 
 	// ai sensing
 	class UAIPerceptionStimuliSourceComponent *StimulusSource;
