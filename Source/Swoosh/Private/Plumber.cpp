@@ -48,8 +48,6 @@ APlumber::APlumber()
 	FlashLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("FlashLight"));
 	FlashLight->SetupAttachment(ViewCam);
 
-
-
 	SetupStimulusSource();
 
 	CanStartGame = false;
@@ -393,6 +391,5 @@ void APlumber::StartGameFunctions()
 	{
 		SequencePlayer->Play();
 	}
-	MainMenuUI->RemoveFromParent();
 	GetWorldTimerManager().SetTimer(TimerHandle_EnableInput, this, &APlumber::EnableInputFunction, 5.0f, false);
 }

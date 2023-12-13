@@ -118,8 +118,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USpotLightComponent *FlashLight;
 
-
-
 	UPROPERTY(EditAnywhere)
 	UUserWidget *MainUI;
 

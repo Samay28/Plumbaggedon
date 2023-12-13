@@ -14,15 +14,13 @@ ASpray::ASpray()
 
 	SprayHitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBox"));
 	SprayHitBox->SetupAttachment(MeshComponent);
-
-	IsFiring = false;
 }
 
 void ASpray::ActivateSpray()
 {
 	if (SpraySmoke)
 	{
-		IsFiring = true;
+		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		SpraySmoke->Activate();
 	}
 }
@@ -31,7 +29,7 @@ void ASpray::DeactivateSpray()
 {
 	if (SpraySmoke)
 	{
-		IsFiring = false;
+		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		SpraySmoke->Deactivate();
 	}
 }
