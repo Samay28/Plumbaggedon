@@ -54,7 +54,6 @@ APlumber::APlumber()
 	IsPlayerDead = false;
 	count = 0;
 
-	
 	// Iterate through all actors in the world to find the LevelSequenceActor
 }
 
@@ -262,9 +261,17 @@ void APlumber::EnableInputFunction()
 }
 
 void APlumber::RespawnPlayer()
-{	
-	UE_LOG(LogTemp,Warning, TEXT("FEF"));
+{
+	UE_LOG(LogTemp, Warning, TEXT("FEF"));
+	APlayerController *PlayerController = Cast<APlayerController>(GetController());
+	if (PlayerController)
+	{
+		EnableInput(PlayerController);
+	}
+	FlashLight->SetVisibility(true);
+	ViewCam->bUsePawnControlRotation = true;
 	this->SetActorLocation(CheckpointLocation);
+	IsPlayerDead = false;
 }
 
 void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
