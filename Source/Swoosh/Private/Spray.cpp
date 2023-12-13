@@ -14,6 +14,7 @@ ASpray::ASpray()
 
 	SprayHitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("HitBox"));
 	SprayHitBox->SetupAttachment(MeshComponent);
+	SprayHitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ASpray::ActivateSpray()

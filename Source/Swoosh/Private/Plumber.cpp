@@ -262,8 +262,9 @@ void APlumber::EnableInputFunction()
 }
 
 void APlumber::RespawnPlayer()
-{
-	this->GetActorLocation() = CheckpointLocation;
+{	
+	UE_LOG(LogTemp,Warning, TEXT("FEF"));
+	this->SetActorLocation(CheckpointLocation);
 }
 
 void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
