@@ -39,6 +39,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool IsPlayerDead;
 
+
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	// bool StartButtonPressed;
 

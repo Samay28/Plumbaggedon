@@ -50,7 +50,7 @@ void AEnemy_AIController::SetUpPerceptionSystem()
     if (SightConfig)
     {
         SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component")));
-        SightConfig->SightRadius = 2000.0f;
+        SightConfig->SightRadius = 3000.0f;
         SightConfig->LoseSightRadius = SightConfig->SightRadius + 25.f;
         SightConfig->PeripheralVisionAngleDegrees = 90.0f;
         SightConfig->SetMaxAge(5.f);
@@ -81,7 +81,7 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
             {
                 if (UCharacterMovementComponent *MovementComp = Enemy->GetCharacterMovement())
                 {
-                    MovementComp->MaxWalkSpeed = 500.0f;
+                    MovementComp->MaxWalkSpeed = 550.0f;
                 }
             }
         }

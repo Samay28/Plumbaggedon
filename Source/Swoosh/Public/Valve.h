@@ -26,15 +26,18 @@ public:
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
     float TotalRotation;
-    
+
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
     TArray<AStaticMeshActor *> WaterFlows;
+
+    UPROPERTY(BlueprintReadOnly)
+    bool AllValvesClosed;
 
 protected:
     virtual void BeginPlay() override;
 
-    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category=Light)
-    class AFlickeringLight* RedLight;
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = Light)
+    class AFlickeringLight *RedLight;
 
 private:
     UPROPERTY(VisibleAnywhere)

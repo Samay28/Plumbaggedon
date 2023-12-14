@@ -11,6 +11,7 @@ AValve::AValve()
     PrimaryActorTick.bCanEverTick = true;
     StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
     RootComponent = StaticMeshComponent;
+    AllValvesClosed = false;
 }
 
 void AValve::BeginPlay()
@@ -23,7 +24,10 @@ void AValve::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    // Your tick logic here
+    if (ValvesClosed == 5)
+    {
+        AllValvesClosed = true;
+    }
 }
 
 void AValve::CloseValve()
