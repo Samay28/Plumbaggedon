@@ -10,19 +10,27 @@ UCLASS()
 class SWOOSH_API ALadder : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ALadder();
-	void MoveDownwards();
+
+	UFUNCTION(BlueprintCallable, Category = "YourCategory")
+	void MoveActorDownwards();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	class UBoxComponent *Collider;
 
-public:	
+	// UPROPERTY(EditAnywhere)
+	// class UBoxComponent *Collider;
+
+	struct FTimerHandle DownwardMoveTimerHandle;
+
+	UFUNCTION()
+    void MoveDownwardCallback();
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };
