@@ -52,7 +52,9 @@ APlumber::APlumber()
 
 	CanStartGame = false;
 	IsPlayerDead = false;
+	CanEquipSpray = false;
 	count = 0;
+	ValvesCount = 0;
 
 	// Iterate through all actors in the world to find the LevelSequenceActor
 }
@@ -86,6 +88,7 @@ void APlumber::BeginPlay()
 	for (AActor *AttachedActor : AttachedActors)
 	{
 		SprayCan = Cast<ASpray>(AttachedActor);
+		SprayCan->SetActorHiddenInGame(true);
 	}
 
 	if (StartScene)
@@ -156,6 +159,10 @@ void APlumber::Tick(float DeltaTime)
 			count++;
 		}
 	}
+	if (ValvesCount == 5)
+	{
+		CanEquipSpray = true;
+	}
 }
 
 // Called to bind functionality to input
@@ -173,6 +180,7 @@ void APlumber::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 		EIC->BindAction(InteractAction, ETriggerEvent::Completed, this, &APlumber::StopInteract);
 		EIC->BindAction(FireAction, ETriggerEvent::Triggered, this, &APlumber::Fire);
 		EIC->BindAction(FireAction, ETriggerEvent::Completed, this, &APlumber::StopFire);
+		EIC->BindAction(EquipSprayAction, ETriggerEvent::Triggered, this, &APlumber::EquipSpray);
 	}
 }
 
@@ -243,6 +251,21 @@ void APlumber::StopFire()
 		if (Spray)
 		{
 			Spray->DeactivateSpray();
+		}
+	}
+}
+
+void APlumber::EquipSpray()
+{
+	if (CanEquipSpray)
+	{
+		TArray<AActor *> AttachedActors;
+		this->GetAttachedActors(AttachedActors);
+
+		for (AActor *AttachedActor : AttachedActors)
+		{
+			SprayCan = Cast<ASpray>(AttachedActor);
+			SprayCan->SetActorHiddenInGame(false);
 		}
 	}
 }
@@ -337,17 +360,14 @@ void APlumber::Interact()
 			// Update the total rotation
 			Valve->TotalRotation += 1.0f;
 
-			// Log a message indicating that the closing has started
-			UE_LOG(LogTemp, Warning, TEXT("Closing started"));
-
 			// Check if the total rotation exceeds 720 degrees
 			if (Valve->TotalRotation >= 720.0f)
 			{
 				Valve->CloseValve();
 				StopInteract();
 				Valve->IsValveCompleted = true;
-				UE_LOG(LogTemp, Warning, TEXT("Closing Stopped. Total rotation exceeded 720 degrees."));
 				CheckpointLocation = this->GetActorLocation();
+				ValvesCount++;
 			}
 			else
 			{

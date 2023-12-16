@@ -39,7 +39,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool IsPlayerDead;
 
-
+	bool CanEquipSpray;
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	// bool StartButtonPressed;
 
@@ -65,6 +65,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *FireAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction *EquipSprayAction;
+
 	UPROPERTY(EditAnywhere, Category = Variables)
 	float Ysensi;
 
@@ -86,6 +89,7 @@ protected:
 	void StopSprint();
 	void Fire();
 	void StopFire();
+	void EquipSpray();
 	void EnableInputFunction();
 	void RespawnPlayer();
 
@@ -128,7 +132,10 @@ private:
 	UUserWidget *MainMenuUI;
 
 	int count;
+	int ValvesCount;
 
 	class AValve *ValveActor;
 	class ASpray *SprayCan;
+
+	
 };
