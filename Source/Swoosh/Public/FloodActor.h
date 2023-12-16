@@ -16,6 +16,9 @@ public:
 	AFloodActor();
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool StartTimer;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

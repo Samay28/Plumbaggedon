@@ -111,9 +111,6 @@ protected:
 	class ALevelSequenceActor *StartScene;
 	class ULevelSequencePlayer *SequencePlayer;
 
-	// UPROPERTY(BlueprintReadWrite)
-	// bool Can
-
 private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent *ViewCam;

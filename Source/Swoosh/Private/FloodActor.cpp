@@ -15,8 +15,8 @@ AFloodActor::AFloodActor()
 void AFloodActor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//
+	
+	StartTimer = false;
 }
 
 // Called every frame
@@ -26,7 +26,7 @@ void AFloodActor::Tick(float DeltaTime)
 
 	// UE_LOG(LogTemp, Warning, TEXT("Current Time: %f"), GetWorldTimerManager().GetTimerElapsed(TimerHandle));
 
-	if (Valves->ValvesClosed < 5)
+	if (Valves->ValvesClosed < 5 && StartTimer)
 	{
 		UpdateActorPosition(DeltaTime);
 	}
@@ -39,7 +39,7 @@ void AFloodActor::Tick(float DeltaTime)
 // }
 
 void AFloodActor::UpdateActorPosition(float DeltaTime)
-{
+{	
 	float MovePerSecond = 170.f / 1200.f;
 
 	FVector NewLocation = GetActorLocation();

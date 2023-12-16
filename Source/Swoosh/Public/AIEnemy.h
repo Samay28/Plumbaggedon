@@ -24,12 +24,11 @@ public:
 
 	UBehaviorTree *GetBehaviorTree() const;
 
-	UFUNCTION()
-	void OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActor,
-					  UPrimitiveComponent *OtherComp, FVector NormalImpulse,
-					  const FHitResult &Hit);
+	// UFUNCTION()
+	// void OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActor,
+	// 				  UPrimitiveComponent *OtherComp, FVector NormalImpulse,
+	// 				  const FHitResult &Hit);
 
-	void UpdateAnimInstanceForDeath();
 
 
 protected:

@@ -15,39 +15,35 @@ AAIEnemy::AAIEnemy()
 void AAIEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	UCapsuleComponent *CC = FindComponentByClass<UCapsuleComponent>();
-	if (CC)
-	{
-		// Bind the OnComponentBeginOverlap event
-		CC->OnComponentHit.AddDynamic(this, &AAIEnemy::OnCapsuleHit);
-	}
-	else
-	{
-		// Log an error if the capsule component is not found
-		UE_LOG(LogTemp, Error, TEXT("Capsule component not found in EnemyController"));
-	}
-	SkeletalMeshComp = FindComponentByClass<USkeletalMeshComponent>();
-	if (SkeletalMeshComp)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("gm"));
-	}
+	// UCapsuleComponent *CC = FindComponentByClass<UCapsuleComponent>();
+	// if (CC)
+	// {
+	// 	// Bind the OnComponentBeginOverlap event
+	// 	CC->OnComponentHit.AddDynamic(this, &AAIEnemy::OnCapsuleHit);
+	// }
+	// else
+	// {
+	// 	// Log an error if the capsule component is not found
+	// 	UE_LOG(LogTemp, Error, TEXT("Capsule component not found in EnemyController"));
+	// }
+	// SkeletalMeshComp = FindComponentByClass<USkeletalMeshComponent>();
+	// if (SkeletalMeshComp)
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("gm"));
+	// }
 }
-void AAIEnemy::OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActor,
-							UPrimitiveComponent *OtherComp, FVector NormalImpulse,
-							const FHitResult &Hit)
-{
-	// Check if the other actor has Plumber.cpp as its class
-	if (OtherActor && OtherActor->IsA(APlumber::StaticClass()))
-	{
-		// Log a message
-		UE_LOG(LogTemp, Warning, TEXT("Capsule hit an actor of class Plumber"));
-	}
-}
+// void AAIEnemy::OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActor,
+// 							UPrimitiveComponent *OtherComp, FVector NormalImpulse,
+// 							const FHitResult &Hit)
+// {
+// 	// Check if the other actor has Plumber.cpp as its class
+// 	if (OtherActor && OtherActor->IsA(APlumber::StaticClass()))
+// 	{
+// 		// Log a message
+// 		UE_LOG(LogTemp, Warning, TEXT("Capsule hit an actor of class Plumber"));
+// 	}
+// }
 
-void AAIEnemy::UpdateAnimInstanceForDeath()
-{
-	SkeletalMeshComp->SetAnimInstanceClass(nullptr);
-}
 
 
 // Called every frame

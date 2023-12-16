@@ -272,6 +272,7 @@ void APlumber::RespawnPlayer()
 	ViewCam->bUsePawnControlRotation = true;
 	this->SetActorLocation(CheckpointLocation);
 	IsPlayerDead = false;
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
 void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
@@ -280,21 +281,9 @@ void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Oth
 	if (OtherActor && OtherActor->ActorHasTag("Enemy"))
 	{
 		APlayerController *PlayerController = Cast<APlayerController>(GetController());
-		AController *OtherController = nullptr;
-
-		// Try to get the controller from the other actor
-		APawn *OtherPawn = Cast<APawn>(OtherActor);
-		if (OtherPawn)
-		{
-			OtherController = OtherPawn->GetController();
-		}
-		else
-		{
-			// If it's not a pawn, try to get the controller directly
-			OtherController = Cast<AController>(OtherActor);
-		}
-
+		AController *OtherController = Cast<APawn>(OtherActor) ? Cast<APawn>(OtherActor)->GetController() : Cast<AController>(OtherActor);
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
+
 		if (PlayerController && ViewCam && EnemyController && !EnemyController->isDead)
 		{
 			IsPlayerDead = true;
@@ -302,29 +291,19 @@ void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Oth
 			ViewCam->bUsePawnControlRotation = false;
 
 			APawn *EnemyPawn = EnemyController->GetPawn();
-			if (EnemyPawn)
+			UStaticMeshComponent *EnemyMeshComponent = EnemyPawn ? Cast<UStaticMeshComponent>(EnemyPawn->GetComponentByClass(UStaticMeshComponent::StaticClass())) : nullptr;
+
+			if (EnemyMeshComponent && FlashLight)
 			{
-				// Assuming MeshComponent is the name of the mesh component in your enemy pawn
-				UStaticMeshComponent *EnemyMeshComponent = Cast<UStaticMeshComponent>(EnemyPawn->GetComponentByClass(UStaticMeshComponent::StaticClass()));
+				UE_LOG(LogTemp, Warning, TEXT("Rotation calculation successful"));
 
-				if (EnemyMeshComponent && FlashLight)
-				{
-					// Log for debugging purposes
-					UE_LOG(LogTemp, Warning, TEXT("Rotation calculation successful"));
+				FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(ViewCam->GetComponentLocation(), EnemyMeshComponent->GetComponentLocation());
+				FRotator NewRotation = FMath::RInterpTo(ViewCam->GetComponentRotation(), TargetRotation, GetWorld()->GetDeltaSeconds(), 2.f);
 
-					FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(ViewCam->GetComponentLocation(), EnemyMeshComponent->GetComponentLocation());
-
-					// Interpolate the rotation for smooth movement over 2 seconds
-					FRotator NewRotation = FMath::RInterpTo(ViewCam->GetComponentRotation(), TargetRotation, GetWorld()->GetDeltaSeconds(), 2.f);
-
-					// Set the new rotation for the camera (ViewCam)
-					ViewCam->SetWorldRotation(TargetRotation);
-
-					// Adjust other components or properties as needed
-					FlashLight->SetVisibility(false);
-
-					GetWorld()->GetTimerManager().SetTimer(TimerHandle_Respawn, this, &APlumber::RespawnPlayer, 3, false);
-				}
+				ViewCam->SetWorldRotation(TargetRotation);
+				FlashLight->SetVisibility(false);
+				GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				GetWorld()->GetTimerManager().SetTimer(TimerHandle_Respawn, this, &APlumber::RespawnPlayer, 3, false);
 			}
 		}
 	}

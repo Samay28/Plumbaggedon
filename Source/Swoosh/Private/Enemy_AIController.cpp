@@ -16,19 +16,16 @@ AEnemy_AIController::AEnemy_AIController(FObjectInitializer const &ObjectInitial
     SetUpPerceptionSystem();
     isDead = false;
 }
+
 void AEnemy_AIController::Death()
 {
-    APawn *E = GetPawn();
-    if (AAIEnemy *const die = Cast<AAIEnemy>(E))
-    {
-        die->UpdateAnimInstanceForDeath();
-    }
-    isDead = true;
+
     this->GetBlackboardComponent()->SetValueAsBool("IsDead", true);
 
     FTimerHandle TimerHandle;
     GetWorldTimerManager().SetTimer(TimerHandle, this, &AEnemy_AIController::DestroyActor, 1.2f, false);
 }
+
 void AEnemy_AIController::OnPossess(APawn *InPawn)
 {
     Super::OnPossess(InPawn);

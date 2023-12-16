@@ -65,27 +65,14 @@ void ASpray::Tick(float DeltaTime)
 void ASpray::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
 	if (OtherActor && OtherActor->ActorHasTag("Enemy"))
-	{
-		AController *OtherController = nullptr;
-
-		// Try to get the controller from the other actor
-		APawn *OtherPawn = Cast<APawn>(OtherActor);
-		if (OtherPawn)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("cHAL GYAA1"));
-			OtherController = OtherPawn->GetController();
-		}
-		else
-		{
-			// If it's not a pawn, try to get the controller directly
-			OtherController = Cast<AController>(OtherActor);
-		}
-
+	{	
+		AController *OtherController = Cast<APawn>(OtherActor) ? Cast<APawn>(OtherActor)->GetController() : Cast<AController>(OtherActor);
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
-		if (EnemyController)
+
+		if (EnemyController && !EnemyController->isDead)
 		{
 			EnemyController->Death();
-			UE_LOG(LogTemp, Warning, TEXT("cHAL GYAA"));
+			EnemyController->isDead = true;
 		}
 	}
 }
