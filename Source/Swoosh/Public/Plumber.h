@@ -39,7 +39,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool IsPlayerDead;
 
+	UPROPERTY(BlueprintReadOnly)
 	bool CanEquipSpray;
+
+	bool SprayEquiped;
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	// bool StartButtonPressed;
 

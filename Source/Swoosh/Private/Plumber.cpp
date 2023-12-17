@@ -226,7 +226,7 @@ void APlumber::StopSprint()
 void APlumber::Fire()
 {
 	// Assuming SprayCan is a UPROPERTY in your APlumber class
-	if (SprayCan)
+	if (SprayCan && SprayEquiped)
 	{
 		// Cast to ASpray
 		ASpray *Spray = Cast<ASpray>(SprayCan);
@@ -242,7 +242,7 @@ void APlumber::Fire()
 void APlumber::StopFire()
 {
 	// Assuming SprayCan is a UPROPERTY in your APlumber class
-	if (SprayCan)
+	if (SprayCan && SprayEquiped)
 	{
 		// Cast to ASpray
 		ASpray *Spray = Cast<ASpray>(SprayCan);
@@ -266,6 +266,7 @@ void APlumber::EquipSpray()
 		{
 			SprayCan = Cast<ASpray>(AttachedActor);
 			SprayCan->SetActorHiddenInGame(false);
+			SprayEquiped = true;
 		}
 	}
 }
