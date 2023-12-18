@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	ALadder();
 
-	UFUNCTION(BlueprintCallable, Category = "YourCategory")
+	UFUNCTION(BlueprintCallable)
 	void MoveActorDownwards();
 
 protected:

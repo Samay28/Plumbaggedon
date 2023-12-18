@@ -52,7 +52,7 @@ APlumber::APlumber()
 
 	CanStartGame = false;
 	IsPlayerDead = false;
-	CanEquipSpray = false;
+	CanEquipSpray = true;
 	count = 0;
 	ValvesCount = 0;
 
@@ -159,7 +159,7 @@ void APlumber::Tick(float DeltaTime)
 			count++;
 		}
 	}
-	if (ValvesCount == 5)
+	if (ValvesCount == 0)
 	{
 		CanEquipSpray = true;
 	}
@@ -297,6 +297,7 @@ void APlumber::RespawnPlayer()
 	this->SetActorLocation(CheckpointLocation);
 	IsPlayerDead = false;
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	SprayCan->FuelSpray = 3000;
 }
 
 void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)

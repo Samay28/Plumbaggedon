@@ -16,6 +16,10 @@ public:
 	ASpray();
 	void ActivateSpray();
 	void DeactivateSpray();
+
+	UPROPERTY(BlueprintReadOnly)
+	int FuelSpray;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

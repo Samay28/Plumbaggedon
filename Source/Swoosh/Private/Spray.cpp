@@ -19,10 +19,11 @@ ASpray::ASpray()
 
 void ASpray::ActivateSpray()
 {
-	if (SpraySmoke)
+	if (SpraySmoke && FuelSpray>0)
 	{
 		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		SpraySmoke->Activate();
+		FuelSpray--;
 	}
 }
 
@@ -32,21 +33,21 @@ void ASpray::DeactivateSpray()
 	{
 		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		SpraySmoke->Deactivate();
+		// FuelSpray++;
+		// UE_LOG(LogTemp,Warning,TEXT("Fuel : %f"), FuelSpray);
 	}
 }
 
 void ASpray::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// Move the FindComponentByClass call to BeginPlay
+	FuelSpray = 3000;
 	SpraySmoke = FindComponentByClass<UParticleSystemComponent>();
 
 	if (SpraySmoke)
 	{
 
 		SpraySmoke->Deactivate();
-
 		UE_LOG(LogTemp, Warning, TEXT("Cascade Particle System component found on %s"), *GetName());
 	}
 	else
@@ -60,12 +61,14 @@ void ASpray::BeginPlay()
 void ASpray::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	UE_LOG(LogTemp, Warning, TEXT("Fuel : %d"), FuelSpray);
+	FuelSpray = FMath::Clamp(FuelSpray, 0, 4000);
 }
 
 void ASpray::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
 	if (OtherActor && OtherActor->ActorHasTag("Enemy"))
-	{	
+	{
 		AController *OtherController = Cast<APawn>(OtherActor) ? Cast<APawn>(OtherActor)->GetController() : Cast<AController>(OtherActor);
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
 

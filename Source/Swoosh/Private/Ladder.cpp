@@ -57,7 +57,7 @@ void ALadder::MoveDownwardCallback()
 void ALadder::BeginPlay()
 {
 	Super::BeginPlay();
-	MoveActorDownwards();
+	// MoveActorDownwards();
 }
 
 // Called every frame
