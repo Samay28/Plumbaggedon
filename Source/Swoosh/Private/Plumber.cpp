@@ -52,7 +52,7 @@ APlumber::APlumber()
 
 	CanStartGame = false;
 	IsPlayerDead = false;
-	CanEquipSpray = true;
+	CanEquipSpray = false;
 	count = 0;
 	ValvesCount = 0;
 
@@ -159,7 +159,7 @@ void APlumber::Tick(float DeltaTime)
 			count++;
 		}
 	}
-	if (ValvesCount == 0)
+	if (ValvesCount == 5)
 	{
 		CanEquipSpray = true;
 	}
@@ -293,7 +293,7 @@ void APlumber::RespawnPlayer()
 		EnableInput(PlayerController);
 	}
 	FlashLight->SetVisibility(true);
-	ViewCam->bUsePawnControlRotation = true;
+	SpringArm->bUsePawnControlRotation = true;
 	this->SetActorLocation(CheckpointLocation);
 	IsPlayerDead = false;
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
@@ -313,7 +313,7 @@ void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Oth
 		{
 			IsPlayerDead = true;
 			DisableInput(PlayerController);
-			ViewCam->bUsePawnControlRotation = false;
+			SpringArm->bUsePawnControlRotation = false;
 
 			APawn *EnemyPawn = EnemyController->GetPawn();
 			UStaticMeshComponent *EnemyMeshComponent = EnemyPawn ? Cast<UStaticMeshComponent>(EnemyPawn->GetComponentByClass(UStaticMeshComponent::StaticClass())) : nullptr;
@@ -325,7 +325,7 @@ void APlumber::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Oth
 				FRotator TargetRotation = UKismetMathLibrary::FindLookAtRotation(ViewCam->GetComponentLocation(), EnemyMeshComponent->GetComponentLocation());
 				FRotator NewRotation = FMath::RInterpTo(ViewCam->GetComponentRotation(), TargetRotation, GetWorld()->GetDeltaSeconds(), 2.f);
 
-				ViewCam->SetWorldRotation(TargetRotation);
+				SpringArm->SetWorldRotation(TargetRotation);
 				FlashLight->SetVisibility(false);
 				GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 				GetWorld()->GetTimerManager().SetTimer(TimerHandle_Respawn, this, &APlumber::RespawnPlayer, 3, false);

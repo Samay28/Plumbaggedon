@@ -41,7 +41,7 @@ void ASpray::DeactivateSpray()
 void ASpray::BeginPlay()
 {
 	Super::BeginPlay();
-	FuelSpray = 3000;
+	FuelSpray = 3000.f;
 	SpraySmoke = FindComponentByClass<UParticleSystemComponent>();
 
 	if (SpraySmoke)
@@ -61,8 +61,7 @@ void ASpray::BeginPlay()
 void ASpray::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("Fuel : %d"), FuelSpray);
-	FuelSpray = FMath::Clamp(FuelSpray, 0, 4000);
+	FuelSpray = FMath::Clamp(FuelSpray, 0, 3000);
 }
 
 void ASpray::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)

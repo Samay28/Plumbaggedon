@@ -18,7 +18,7 @@ public:
 	void DeactivateSpray();
 
 	UPROPERTY(BlueprintReadOnly)
-	int FuelSpray;
+	float FuelSpray;
 
 protected:
 	// Called when the game starts or when spawned

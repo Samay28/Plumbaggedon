@@ -42,6 +42,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	bool CanEquipSpray;
 
+	UPROPERTY(BlueprintReadOnly)
 	bool SprayEquiped;
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	// bool StartButtonPressed;
@@ -82,7 +83,6 @@ protected:
 
 	FVector CheckpointLocation;
 
-
 	void LookCharacter(const FInputActionValue &Value);
 	void MoveCharacter(const FInputActionValue &Value);
 	void Sprint();
@@ -98,8 +98,6 @@ protected:
 
 	UFUNCTION()
 	void OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
-
-	
 
 	FTimerHandle InteractTimerHandle;
 	FTimerHandle TimerHandle_EnableInput;
@@ -139,6 +137,4 @@ private:
 
 	class AValve *ValveActor;
 	class ASpray *SprayCan;
-
-	
 };
