@@ -24,11 +24,17 @@ public:
 
 	UBehaviorTree *GetBehaviorTree() const;
 
-	// UFUNCTION()
-	// void OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActor,
-	// 				  UPrimitiveComponent *OtherComp, FVector NormalImpulse,
-	// 				  const FHitResult &Hit);
+	UPROPERTY(EditAnywhere);
+	class UAudioComponent* EnemySound;
+	
+	UPROPERTY(EditAnywhere);
+	class USoundWave* PatrolSound;
 
+	UPROPERTY(EditAnywhere);
+	class USoundWave* RageSound; 
+
+	void SetRageSound();
+	void SetPatrolSound();
 
 
 protected:

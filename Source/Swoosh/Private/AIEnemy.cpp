@@ -2,54 +2,44 @@
 
 #include "AIEnemy.h"
 #include "Plumber.h"
-#include "Components/CapsuleComponent.h"
-#include "Components/SkeletalMeshComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundWave.h"
 // Sets default values
 AAIEnemy::AAIEnemy()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	EnemySound = CreateDefaultSubobject<UAudioComponent>(TEXT("Sound"));
+	EnemySound->SetupAttachment(RootComponent);
+}
+
+void AAIEnemy::SetRageSound()
+{
+	EnemySound->SetSound(RageSound);
+}
+
+void AAIEnemy::SetPatrolSound()
+{
+	EnemySound->SetSound(PatrolSound);
 }
 
 // Called when the game starts or when spawned
 void AAIEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	// UCapsuleComponent *CC = FindComponentByClass<UCapsuleComponent>();
-	// if (CC)
+	EnemySound->bAlwaysPlay = true;
+	// static ConstructorHelpers::FObjectFinder<USoundCue> SoundCueAsset(TEXT("/Game/Sounds/Enemy/flap_chase-1"));
+	// if (SoundCueAsset.Succeeded())
 	// {
-	// 	// Bind the OnComponentBeginOverlap event
-	// 	CC->OnComponentHit.AddDynamic(this, &AAIEnemy::OnCapsuleHit);
-	// }
-	// else
-	// {
-	// 	// Log an error if the capsule component is not found
-	// 	UE_LOG(LogTemp, Error, TEXT("Capsule component not found in EnemyController"));
-	// }
-	// SkeletalMeshComp = FindComponentByClass<USkeletalMeshComponent>();
-	// if (SkeletalMeshComp)
-	// {
-	// 	UE_LOG(LogTemp, Warning, TEXT("gm"));
+	// 	EnemySound->SetSound(SoundCueAsset.Object);
 	// }
 }
-// void AAIEnemy::OnCapsuleHit(UPrimitiveComponent *HitComponent, AActor *OtherActor,
-// 							UPrimitiveComponent *OtherComp, FVector NormalImpulse,
-// 							const FHitResult &Hit)
-// {
-// 	// Check if the other actor has Plumber.cpp as its class
-// 	if (OtherActor && OtherActor->IsA(APlumber::StaticClass()))
-// 	{
-// 		// Log a message
-// 		UE_LOG(LogTemp, Warning, TEXT("Capsule hit an actor of class Plumber"));
-// 	}
-// }
-
-
 
 // Called every frame
 void AAIEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 }
 
 // Called to bind functionality to input

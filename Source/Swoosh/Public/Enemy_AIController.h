@@ -30,4 +30,6 @@ protected:
 	void OnTargetDetected(AActor *Actor, FAIStimulus const Stimulus);
 
 	void DestroyActor();
+
+	class AAIEnemy *GetControlledEnemy() const;
 };

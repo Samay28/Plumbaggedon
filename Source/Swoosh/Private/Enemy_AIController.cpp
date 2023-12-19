@@ -12,6 +12,7 @@
 #include "TimerManager.h"
 
 AEnemy_AIController::AEnemy_AIController(FObjectInitializer const &ObjectInitializer)
+    : AAIController(ObjectInitializer)
 {
     SetUpPerceptionSystem();
     isDead = false;
@@ -71,9 +72,14 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
         UE_LOG(LogTemp, Warning, TEXT("Player detected. CanSeePlayer: %s"), CanSeePlayer ? TEXT("true") : TEXT("false"));
 
         GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", CanSeePlayer);
-
         if (CanSeePlayer)
         {
+            AAIEnemy *ControlledEnemy = GetControlledEnemy();
+            if (ControlledEnemy)
+            {
+                ControlledEnemy->SetRageSound();
+            }
+
             if (ACharacter *Enemy = GetCharacter())
             {
                 if (UCharacterMovementComponent *MovementComp = Enemy->GetCharacterMovement())
@@ -84,11 +90,18 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
         }
         else
         {
+            // AAIEnemy *E = NewObject<AAIEnemy>();
+            // E->SetPatrolSound();
             if (ACharacter *Enemy = GetCharacter())
             {
                 if (UCharacterMovementComponent *MovementComp = Enemy->GetCharacterMovement())
                 {
-                    MovementComp->MaxWalkSpeed = 250.0f;
+                    AAIEnemy *ControlledEnemy = GetControlledEnemy();
+                    if (ControlledEnemy)
+                    {
+                        ControlledEnemy->SetPatrolSound();
+                        MovementComp->MaxWalkSpeed = 250.0f;
+                    }
                 }
             }
         }
@@ -102,4 +115,8 @@ void AEnemy_AIController::DestroyActor()
     {
         die->Destroy();
     }
+}
+AAIEnemy *AEnemy_AIController::GetControlledEnemy() const
+{
+    return Cast<AAIEnemy>(GetPawn());
 }
