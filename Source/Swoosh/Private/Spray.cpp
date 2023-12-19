@@ -19,7 +19,7 @@ ASpray::ASpray()
 
 void ASpray::ActivateSpray()
 {
-	if (SpraySmoke && FuelSpray>0)
+	if (SpraySmoke && FuelSpray > 0)
 	{
 		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		SpraySmoke->Activate();
@@ -70,11 +70,11 @@ void ASpray::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Other
 	{
 		AController *OtherController = Cast<APawn>(OtherActor) ? Cast<APawn>(OtherActor)->GetController() : Cast<AController>(OtherActor);
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
+		EnemyController->isDead = true;
 
 		if (EnemyController && !EnemyController->isDead)
 		{
 			EnemyController->Death();
-			EnemyController->isDead = true;
 		}
 	}
 }
