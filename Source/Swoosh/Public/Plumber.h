@@ -134,9 +134,11 @@ private:
 
 	int count;
 	int ValvesCount;
+	int countforcheckvalve;
 
 	class AValve *ValveActor;
 	class ASpray *SprayCan;
 
 	AActor* InteractedValve;
+
 };

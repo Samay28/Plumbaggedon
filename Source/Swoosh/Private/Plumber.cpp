@@ -55,6 +55,7 @@ APlumber::APlumber()
 	CanEquipSpray = false;
 	count = 0;
 	ValvesCount = 0;
+	countforcheckvalve = 0;
 
 	// Iterate through all actors in the world to find the LevelSequenceActor
 }
@@ -349,10 +350,10 @@ void APlumber::Interact()
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
 		Valve = Cast<AValve>(HitResult.GetActor());
+		InteractedValve = Valve;
 		if (Valve && !Valve->IsValveCompleted)
 		{
 			FRotator RotationDelta = FRotator(0.0f, 0.0f, 1.0f);
-			InteractedValve = Valve;
 			Valve->isRotating = true;
 			Valve->AddActorWorldRotation(RotationDelta);
 			Valve->TotalRotation += 1.0f;
@@ -372,7 +373,7 @@ void APlumber::Interact()
 			}
 		}
 		else
-		{	
+		{
 			// Valve->isRotating = false;
 			StopInteract();
 		}
@@ -380,19 +381,21 @@ void APlumber::Interact()
 }
 
 void APlumber::StartInteract()
-{	
+{
 	Valve = Cast<AValve>(InteractedValve);
-	if(Valve)
+	if (Valve && countforcheckvalve == 0)
 	{
 		Valve->PlayValveClosingSound();
+		countforcheckvalve++;
 	}
 	Interact(); // Call the function once when the key is initially pressed
 }
 
 void APlumber::StopInteract()
 {
+	countforcheckvalve = 0;
 	Valve = Cast<AValve>(InteractedValve);
-	if(Valve)
+	if (Valve)
 	{
 		Valve->StopValveClosingSound();
 	}

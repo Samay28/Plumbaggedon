@@ -49,7 +49,7 @@ void ASpray::BeginPlay()
 	Super::BeginPlay();
 	FuelSpray = 3000.f;
 	SpraySmoke = FindComponentByClass<UParticleSystemComponent>();
-	SpraySound->bAutoActivate = false;
+	SpraySound->Stop();
 
 	if (SpraySmoke)
 	{
