@@ -2,6 +2,7 @@
 #include "Valve.h"
 #include "Engine/StaticMeshActor.h"
 #include "FlickeringLight.h"
+#include "Components/AudioComponent.h"
 
 int AValve::ValvesClosed = 0;
 
@@ -12,6 +13,11 @@ AValve::AValve()
     StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
     RootComponent = StaticMeshComponent;
     AllValvesClosed = false;
+
+    ValveSound = CreateDefaultSubobject<UAudioComponent>(TEXT("Sound"));
+    ValveSound->SetupAttachment(RootComponent);
+
+    isRotating = false;
 }
 
 void AValve::BeginPlay()
@@ -28,6 +34,15 @@ void AValve::Tick(float DeltaTime)
     {
         AllValvesClosed = true;
     }
+
+    // if (isRotating)
+    // {
+    //     PlayValveClosingSound();
+    // }
+    // else if(!isRotating)
+    // {
+    //     StopValveClosingSound();
+    // }
 }
 
 void AValve::CloseValve()
@@ -35,13 +50,10 @@ void AValve::CloseValve()
     ValvesClosed++;
     if (WaterFlows.Num() > 0)
     {
-        // Iterate through each element in the WaterFlows array
         for (AStaticMeshActor *CurrentWaterFlow : WaterFlows)
         {
-            // Check if the current element is valid
             if (CurrentWaterFlow)
             {
-                // Deactivate the static mesh actor by setting its visibility to false
                 CurrentWaterFlow->SetActorHiddenInGame(true);
                 CurrentWaterFlow->SetActorEnableCollision(false);
                 RedLight->CloseLight();
@@ -50,4 +62,16 @@ void AValve::CloseValve()
     }
 
     UE_LOG(LogTemp, Warning, TEXT("Valves Closed : %d"), ValvesClosed);
+}
+
+void AValve::PlayValveClosingSound()
+{
+    ValveSound->Play();
+    UE_LOG(LogTemp, Warning, TEXT("SoundValve"));
+}
+
+void AValve::StopValveClosingSound()
+{
+    ValveSound->Stop();
+    UE_LOG(LogTemp, Warning, TEXT("Nah"));
 }

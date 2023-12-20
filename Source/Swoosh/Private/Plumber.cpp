@@ -345,29 +345,23 @@ void APlumber::Interact()
 	FHitResult HitResult;
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(this);
-	// UImage *CrosshairImage = Cast<UImage>(MainUI->GetWidgetFromName(TEXT("Crosshair")));
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 	{
 		Valve = Cast<AValve>(HitResult.GetActor());
 		if (Valve && !Valve->IsValveCompleted)
 		{
-			// Valve->SetInteractingPlumber(this);
-			// Create a rotation delta with the desired pitch increment
 			FRotator RotationDelta = FRotator(0.0f, 0.0f, 1.0f);
-
-			// Rotate the valve around the X-axis
+			InteractedValve = Valve;
+			Valve->isRotating = true;
 			Valve->AddActorWorldRotation(RotationDelta);
-
-			// Update the total rotation
 			Valve->TotalRotation += 1.0f;
-
-			// Check if the total rotation exceeds 720 degrees
 			if (Valve->TotalRotation >= 720.0f)
 			{
 				Valve->CloseValve();
 				StopInteract();
 				Valve->IsValveCompleted = true;
+				// Valve->isRotating = false;
 				CheckpointLocation = this->GetActorLocation();
 				ValvesCount++;
 			}
@@ -378,23 +372,34 @@ void APlumber::Interact()
 			}
 		}
 		else
-		{
+		{	
+			// Valve->isRotating = false;
 			StopInteract();
 		}
 	}
 }
 
 void APlumber::StartInteract()
-{
-	// bShouldRotate = true;
+{	
+	Valve = Cast<AValve>(InteractedValve);
+	if(Valve)
+	{
+		Valve->PlayValveClosingSound();
+	}
 	Interact(); // Call the function once when the key is initially pressed
 }
 
 void APlumber::StopInteract()
 {
-	// bShouldRotate = false;
+	Valve = Cast<AValve>(InteractedValve);
+	if(Valve)
+	{
+		Valve->StopValveClosingSound();
+	}
+
 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
 }
+
 void APlumber::SetupStimulusSource()
 {
 	StimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));

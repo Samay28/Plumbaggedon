@@ -22,7 +22,6 @@ void AEnemy_AIController::Death()
 {
 
     this->GetBlackboardComponent()->SetValueAsBool("IsDead", true);
-
     FTimerHandle TimerHandle;
     GetWorldTimerManager().SetTimer(TimerHandle, this, &AEnemy_AIController::DestroyActor, 1.2f, false);
 }
@@ -73,7 +72,7 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
 
         GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", CanSeePlayer);
         if (CanSeePlayer)
-        {
+        {   
             AAIEnemy *ControlledEnemy = GetControlledEnemy();
             if (ControlledEnemy)
             {

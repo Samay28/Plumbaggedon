@@ -137,4 +137,6 @@ private:
 
 	class AValve *ValveActor;
 	class ASpray *SprayCan;
+
+	AActor* InteractedValve;
 };
