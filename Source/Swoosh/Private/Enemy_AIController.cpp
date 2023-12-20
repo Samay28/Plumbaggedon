@@ -8,6 +8,7 @@
 #include "Perception/AISenseConfig_Sight.h"
 #include "Animation/AnimationAsset.h"
 #include "Animation/AnimInstance.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "TimerManager.h"
 
@@ -22,8 +23,23 @@ void AEnemy_AIController::Death()
 {
 
     this->GetBlackboardComponent()->SetValueAsBool("IsDead", true);
+
     FTimerHandle TimerHandle;
     GetWorldTimerManager().SetTimer(TimerHandle, this, &AEnemy_AIController::DestroyActor, 1.2f, false);
+    AAIEnemy *ControlledEnemy = GetControlledEnemy();
+
+    if (ControlledEnemy)
+    {
+        // Get the capsule component
+        UCapsuleComponent *CapsuleComponent = ControlledEnemy->GetCapsuleComponent();
+
+        if (CapsuleComponent)
+        {
+            // Disable collision/overlapping for the capsule component
+            CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+            CapsuleComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+        }
+    }
 }
 
 void AEnemy_AIController::OnPossess(APawn *InPawn)
@@ -72,7 +88,7 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
 
         GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", CanSeePlayer);
         if (CanSeePlayer)
-        {   
+        {
             AAIEnemy *ControlledEnemy = GetControlledEnemy();
             if (ControlledEnemy)
             {

@@ -214,7 +214,7 @@ void APlumber::MoveCharacter(const FInputActionValue &Value)
 
 void APlumber::Sprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+	GetCharacterMovement()->MaxWalkSpeed = 1600.0f;
 	// BobSpeed = 12.0f;
 }
 
@@ -388,7 +388,7 @@ void APlumber::StartInteract()
 		Valve->PlayValveClosingSound();
 		countforcheckvalve++;
 	}
-	Interact(); // Call the function once when the key is initially pressed
+	Interact();
 }
 
 void APlumber::StopInteract()
@@ -398,8 +398,8 @@ void APlumber::StopInteract()
 	if (Valve)
 	{
 		Valve->StopValveClosingSound();
+		InteractedValve = nullptr;
 	}
-
 	GetWorld()->GetTimerManager().ClearTimer(InteractTimerHandle);
 }
 

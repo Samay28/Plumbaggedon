@@ -17,8 +17,8 @@ ASpray::ASpray()
 	SprayHitBox->SetupAttachment(MeshComponent);
 	SprayHitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-	SpraySound = CreateDefaultSubobject<UAudioComponent>(TEXT("Sound"));
-	SpraySound->SetupAttachment(MeshComponent);
+	// SpraySound = CreateDefaultSubobject<UAudioComponent>(TEXT("Sound"));
+	// SpraySound->SetupAttachment(MeshComponent);
 }
 
 void ASpray::ActivateSpray()
@@ -27,7 +27,7 @@ void ASpray::ActivateSpray()
 	{
 		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		SpraySmoke->Activate();
-		SpraySound->Play();
+		// SpraySound->SetPaused(false);
 		FuelSpray--;
 	}
 }
@@ -38,7 +38,7 @@ void ASpray::DeactivateSpray()
 	{
 		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		SpraySmoke->Deactivate();
-		SpraySound->Stop();
+		// SpraySound->SetPaused(true);
 		// FuelSpray++;
 		// UE_LOG(LogTemp,Warning,TEXT("Fuel : %f"), FuelSpray);
 	}
@@ -49,17 +49,15 @@ void ASpray::BeginPlay()
 	Super::BeginPlay();
 	FuelSpray = 3000.f;
 	SpraySmoke = FindComponentByClass<UParticleSystemComponent>();
-	SpraySound->Stop();
+	// SpraySound->SetPaused(true);
 
 	if (SpraySmoke)
 	{
-
 		SpraySmoke->Deactivate();
 		UE_LOG(LogTemp, Warning, TEXT("Cascade Particle System component found on %s"), *GetName());
 	}
 	else
 	{
-		// The Cascade Particle System component is not found, handle accordingly
 		UE_LOG(LogTemp, Warning, TEXT("Cascade Particle System component not found on %s"), *GetName());
 	}
 	SprayHitBox->OnComponentBeginOverlap.AddDynamic(this, &ASpray::OnCollisionBegin);
@@ -77,7 +75,7 @@ void ASpray::OnCollisionBegin(UPrimitiveComponent *OverlappedComp, AActor *Other
 	{
 		AController *OtherController = Cast<APawn>(OtherActor) ? Cast<APawn>(OtherActor)->GetController() : Cast<AController>(OtherActor);
 		AEnemy_AIController *EnemyController = Cast<AEnemy_AIController>(OtherController);
-		EnemyController->isDead = true;
+		// EnemyController->isDead = true;
 
 		if (EnemyController && !EnemyController->isDead)
 		{
