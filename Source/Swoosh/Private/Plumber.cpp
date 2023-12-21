@@ -226,7 +226,6 @@ void APlumber::StopSprint()
 
 void APlumber::Fire()
 {
-	// Assuming SprayCan is a UPROPERTY in your APlumber class
 	if (SprayCan && SprayEquiped)
 	{
 		// Cast to ASpray

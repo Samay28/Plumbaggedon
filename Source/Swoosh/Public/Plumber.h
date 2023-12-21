@@ -72,10 +72,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *EquipSprayAction;
 
-	UPROPERTY(EditAnywhere, Category = Variables)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = Variables)
 	float Ysensi;
 
-	UPROPERTY(EditAnywhere, Category = Variables)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = Variables)
 	float Xsensi;
 
 	UPROPERTY(EditDefaultsOnly, Category = Widgets)
