@@ -17,8 +17,8 @@ ASpray::ASpray()
 	SprayHitBox->SetupAttachment(MeshComponent);
 	SprayHitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-	// SpraySound = CreateDefaultSubobject<UAudioComponent>(TEXT("Sound"));
-	// SpraySound->SetupAttachment(MeshComponent);
+	SpraySound = CreateDefaultSubobject<UAudioComponent>(TEXT("Sound"));
+	SpraySound->SetupAttachment(MeshComponent);
 }
 
 void ASpray::ActivateSpray()
@@ -27,7 +27,7 @@ void ASpray::ActivateSpray()
 	{
 		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		SpraySmoke->Activate();
-		// SpraySound->SetPaused(false);
+		SpraySound->SetPaused(false);
 		FuelSpray--;
 	}
 }
@@ -38,7 +38,7 @@ void ASpray::DeactivateSpray()
 	{
 		SprayHitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		SpraySmoke->Deactivate();
-		// SpraySound->SetPaused(true);
+		SpraySound->SetPaused(true);
 		// FuelSpray++;
 		// UE_LOG(LogTemp,Warning,TEXT("Fuel : %f"), FuelSpray);
 	}
@@ -49,7 +49,7 @@ void ASpray::BeginPlay()
 	Super::BeginPlay();
 	FuelSpray = 3000.f;
 	SpraySmoke = FindComponentByClass<UParticleSystemComponent>();
-	// SpraySound->SetPaused(true);
+	SpraySound->SetPaused(true);
 
 	if (SpraySmoke)
 	{
