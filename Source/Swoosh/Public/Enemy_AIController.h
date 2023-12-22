@@ -19,6 +19,7 @@ public:
 
 	void Death();
 	bool isDead;
+	bool hasSpottedSoundPlayed;
 
 protected:
 	virtual void OnPossess(APawn *InPawn) override;
@@ -30,6 +31,7 @@ protected:
 	void OnTargetDetected(AActor *Actor, FAIStimulus const Stimulus);
 
 	void DestroyActor();
+	void SetRSound();
 
 	class AAIEnemy *GetControlledEnemy() const;
 };

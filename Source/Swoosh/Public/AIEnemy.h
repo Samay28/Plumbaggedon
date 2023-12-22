@@ -25,17 +25,20 @@ public:
 	UBehaviorTree *GetBehaviorTree() const;
 
 	UPROPERTY(EditAnywhere);
-	class UAudioComponent* EnemySound;
-	
-	UPROPERTY(EditAnywhere);
-	class USoundWave* PatrolSound;
+	class UAudioComponent *EnemySound;
 
 	UPROPERTY(EditAnywhere);
-	class USoundWave* RageSound; 
+	class USoundWave *PatrolSound;
 
+	UPROPERTY(EditAnywhere);
+	class USoundWave *RageSound;
+
+	UPROPERTY(EditAnywhere);
+	class USoundWave *SpottedSound;
+
+	void SetSpottedSound();
 	void SetRageSound();
 	void SetPatrolSound();
-
 
 protected:
 	// Called when the game starts or when spawned
@@ -45,7 +48,5 @@ protected:
 	UBehaviorTree *Tree;
 
 	UPROPERTY(EditAnywhere, Category = Death)
-	class USkeletalMeshComponent *SkeletalMeshComp ;
-
-
+	class USkeletalMeshComponent *SkeletalMeshComp;
 };

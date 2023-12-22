@@ -53,6 +53,7 @@ void AEnemy_AIController::OnPossess(APawn *InPawn)
             UseBlackboard(Tree->BlackboardAsset, b);
             Blackboard = b;
             RunBehaviorTree(Tree);
+            hasSpottedSoundPlayed = false;
         }
     }
 }
@@ -84,7 +85,6 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
     if (auto *const ch = Cast<APlumber>(Actor))
     {
         CanSeePlayer = Stimulus.WasSuccessfullySensed();
-        UE_LOG(LogTemp, Warning, TEXT("Player detected. CanSeePlayer: %s"), CanSeePlayer ? TEXT("true") : TEXT("false"));
 
         GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", CanSeePlayer);
         if (CanSeePlayer)
@@ -92,7 +92,13 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
             AAIEnemy *ControlledEnemy = GetControlledEnemy();
             if (ControlledEnemy)
             {
-                ControlledEnemy->SetRageSound();
+                if (!hasSpottedSoundPlayed)
+                {
+                    ControlledEnemy->SetSpottedSound();
+                }
+                hasSpottedSoundPlayed = true;
+                FTimerHandle UnusedHandle;
+                GetWorldTimerManager().SetTimer(UnusedHandle, this, &AEnemy_AIController::SetRSound, 10, false);
             }
 
             if (ACharacter *Enemy = GetCharacter())
@@ -105,8 +111,7 @@ void AEnemy_AIController::OnTargetDetected(AActor *Actor, FAIStimulus const Stim
         }
         else
         {
-            // AAIEnemy *E = NewObject<AAIEnemy>();
-            // E->SetPatrolSound();
+            hasSpottedSoundPlayed = false;
             if (ACharacter *Enemy = GetCharacter())
             {
                 if (UCharacterMovementComponent *MovementComp = Enemy->GetCharacterMovement())
@@ -129,6 +134,14 @@ void AEnemy_AIController::DestroyActor()
     if (AAIEnemy *die = Cast<AAIEnemy>(E))
     {
         die->Destroy();
+    }
+}
+void AEnemy_AIController::SetRSound()
+{
+    AAIEnemy *ControlledEnemy = GetControlledEnemy();
+    if (ControlledEnemy)
+    {
+        ControlledEnemy->SetRageSound();
     }
 }
 AAIEnemy *AEnemy_AIController::GetControlledEnemy() const

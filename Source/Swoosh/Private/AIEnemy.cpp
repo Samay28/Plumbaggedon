@@ -13,6 +13,11 @@ AAIEnemy::AAIEnemy()
 	EnemySound->SetupAttachment(RootComponent);
 }
 
+void AAIEnemy::SetSpottedSound()
+{
+	EnemySound->SetSound(SpottedSound);
+}
+
 void AAIEnemy::SetRageSound()
 {
 	EnemySound->SetSound(RageSound);
@@ -39,7 +44,6 @@ void AAIEnemy::BeginPlay()
 void AAIEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
