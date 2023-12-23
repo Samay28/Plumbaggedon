@@ -143,6 +143,7 @@ void APlumber::Tick(float DeltaTime)
 			}
 			else
 			{
+				InteractTxt->SetText(FText::FromString(TEXT("")));
 				countforcheckvalve = 0;
 				Valve = Cast<AValve>(InteractedValve);
 				if (Valve)
@@ -150,7 +151,6 @@ void APlumber::Tick(float DeltaTime)
 					Valve->StopValveClosingSound();
 					InteractedValve = nullptr;
 				}
-				InteractTxt->SetText(FText::FromString(TEXT("")));
 			}
 		}
 		else
@@ -221,7 +221,7 @@ void APlumber::MoveCharacter(const FInputActionValue &Value)
 
 void APlumber::Sprint()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 1600.0f;
+	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
 	// BobSpeed = 12.0f;
 }
 
@@ -364,19 +364,22 @@ void APlumber::Interact()
 
 			// Use DeltaTime to make rotation frame rate independent
 			float RotationSpeed = 100.0f; // Adjust the speed as needed
-			Valve->AddActorWorldRotation(RotationDelta * RotationSpeed * GetWorld()->GetDeltaSeconds());
+			float RotationAmount = RotationSpeed * GetWorld()->GetDeltaSeconds();
 
-			Valve->TotalRotation += 1.0f;
+			Valve->AddActorWorldRotation(RotationDelta * RotationAmount);
+
 			if (Valve->TotalRotation >= 720.0f)
 			{
 				Valve->CloseValve();
 				StopInteract();
 				Valve->IsValveCompleted = true;
+				// Valve->isRotating = false;
 				CheckpointLocation = this->GetActorLocation();
 				ValvesCount++;
 			}
 			else
 			{
+				Valve->TotalRotation += RotationAmount;
 				// Schedule a callback to continue rotation every frame
 				GetWorld()->GetTimerManager().SetTimer(InteractTimerHandle, this, &APlumber::Interact, 0.01f, true);
 			}
