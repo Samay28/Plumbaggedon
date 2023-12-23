@@ -44,8 +44,13 @@ public:
 
 	UPROPERTY(BlueprintReadOnly)
 	bool SprayEquiped;
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	// bool StartButtonPressed;
+
+	UPROPERTY(BlueprintReadWrite)
+	int count;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UUserWidget *MainUI;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -72,10 +77,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *EquipSprayAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = Variables)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 	float Ysensi;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = Variables)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
 	float Xsensi;
 
 	UPROPERTY(EditDefaultsOnly, Category = Widgets)
@@ -127,18 +132,13 @@ private:
 	USpotLightComponent *FlashLight;
 
 	UPROPERTY(EditAnywhere)
-	UUserWidget *MainUI;
-
-	UPROPERTY(EditAnywhere)
 	UUserWidget *MainMenuUI;
 
-	int count;
 	int ValvesCount;
 	int countforcheckvalve;
 
 	class AValve *ValveActor;
 	class ASpray *SprayCan;
 
-	AActor* InteractedValve;
-
+	AActor *InteractedValve;
 };

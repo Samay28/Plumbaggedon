@@ -135,15 +135,14 @@ void APlumber::Tick(float DeltaTime)
 
 		if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Camera, CollisionParams))
 		{
-
 			Valve = Cast<AValve>(HitResult.GetActor());
 			if (Valve && !Valve->IsValveCompleted)
 			{
-				InteractTxt->SetText(FText::FromString(TEXT("Hold E")));
+				InteractTxt->SetVisibility(ESlateVisibility::Visible);
 			}
 			else
 			{
-				InteractTxt->SetText(FText::FromString(TEXT("")));
+				InteractTxt->SetVisibility(ESlateVisibility::Hidden);
 				countforcheckvalve = 0;
 				Valve = Cast<AValve>(InteractedValve);
 				if (Valve)
@@ -155,7 +154,7 @@ void APlumber::Tick(float DeltaTime)
 		}
 		else
 		{
-			InteractTxt->SetText(FText::FromString(TEXT("")));
+			InteractTxt->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
 
